@@ -9,18 +9,17 @@ import android.support.v4.app.DialogFragment;
 import com.peacecorps.pcsa.R;
 
 /*
- * A template for alert dialogs which display the user about confirmation of message being sent to the comrades
- *
+ * A template for alert dialogs which display the user about confirmation of message being sent to
+ * the comrades
  * @author Rohan
  * @since 2016-03-13
  */
 public class CustomAlertDialogFragment extends DialogFragment {
 
-    public static CustomAlertDialogFragment newInstance(String title, String content)
-    {
+    public static CustomAlertDialogFragment newInstance(final String title, final String content) {
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title",title);
+        args.putString("title", title);
         args.putString("content", content);
         customAlertDialogFragment.setArguments(args);
         return customAlertDialogFragment;
@@ -28,7 +27,7 @@ public class CustomAlertDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
 
         String title = getArguments().getString("title");
         String content = getArguments().getString("content");

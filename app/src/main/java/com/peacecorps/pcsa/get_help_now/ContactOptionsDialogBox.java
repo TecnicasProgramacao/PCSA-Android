@@ -11,13 +11,15 @@ import android.widget.ListAdapter;
  */
 public class ContactOptionsDialogBox extends  ListDialogBox {
 
-    public static ContactOptionsDialogBox newInstance(String title, Context context, AdapterView.OnItemClickListener clickListener ) {
+    public static ContactOptionsDialogBox newInstance(final String title,
+                                                      final Context context,
+                                                      final AdapterView.OnItemClickListener clickListener) {
         final String BUNDLE_TITLE_STRING = "title";
 
         ContactOptionsDialogBox customAlertDialogcontext = new ContactOptionsDialogBox();
 
         Bundle args = new Bundle();
-        args.putString(BUNDLE_TITLE_STRING,title);
+        args.putString(BUNDLE_TITLE_STRING, title);
 
         customAlertDialogcontext.setArguments(args);
         customAlertDialogcontext.clickListener = clickListener;
