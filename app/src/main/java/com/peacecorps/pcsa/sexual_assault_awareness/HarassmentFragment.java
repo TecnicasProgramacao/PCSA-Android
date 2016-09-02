@@ -20,30 +20,40 @@ import com.peacecorps.pcsa.SingleTextViewFragment;
  * @author rohan
  * @since 2016-07-24
  */
-public class HarassmentFragment extends Fragment{
+public class HarassmentFragment extends Fragment {
 
-    TextView wasContent,subtitle;
+    TextView wasContent;
+    TextView subtitle;
     Button knowButton;
     public static final String TAG = HarassmentFragment.class.getSimpleName();
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(final LayoutInflater inflater,
+                                   @Nullable final ViewGroup container,
+                                   @Nullable final Bundle savedInstanceState) {
 
-        View rootView =  inflater.inflate(R.layout.fragment_was,container,false);
-        wasContent = (TextView)rootView.findViewById(R.id.wasContent);
-        subtitle = (TextView)rootView.findViewById(R.id.subtitle);
+        View rootView =  inflater.inflate(R.layout.fragment_was, container, false);
+
+        wasContent = (TextView) rootView.findViewById(R.id.wasContent);
+
+        subtitle = (TextView) rootView.findViewById(R.id.subtitle);
         subtitle.setText(getString(R.string.harassment_subtitle));
+
         knowButton = (Button) rootView.findViewById(R.id.knowButton);
         knowButton.setText(getString(R.string.harassment_subtitle));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.harassment);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.harassment);
+
         wasContent.setText(Html.fromHtml(getString(R.string.harassment_content)));
         wasContent.setGravity(Gravity.CENTER);
+
         knowButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping Sexual Harassment  info into the fragment container
-                SingleTextViewFragment.showSingleTextLayout(getActivity(),getString(R.string.harassment),
-                        getString(R.string.harassment_subtitle),getString(R.string.harassment_more));
+                SingleTextViewFragment.showSingleTextLayout(getActivity(),
+                        getString(R.string.harassment),
+                        getString(R.string.harassment_subtitle),
+                        getString(R.string.harassment_more));
             }
         });
         return rootView;

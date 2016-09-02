@@ -36,26 +36,24 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             /*
             * Check if instance of the required fragment is available
             * in the backstack and swap it into the container
             */
             Fragment unknownFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG);
-            MainActivity.swapFragmentIn(this,unknownFragment,FRAGMENT_TAG,false);
-        }
-        else
-        {
+            MainActivity.swapFragmentIn(this, unknownFragment, FRAGMENT_TAG, false);
+        } else {
             Fragment mainActivityFragment = new MainActivityFragment();
-            swapFragmentIn(this,mainActivityFragment,MainActivityFragment.TAG,false);
+            swapFragmentIn(this, mainActivityFragment, MainActivityFragment.TAG, false);
         }
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mDrawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(toggle);
@@ -66,25 +64,29 @@ public class MainActivity extends AppCompatActivity {
         expListView.setAdapter(listAdapter);
     }
 
-    public static void swapFragmentIn(FragmentActivity activity, Fragment fragment, String TAG, boolean addToBackStack)
-    {
+    public static void swapFragmentIn(final FragmentActivity activity,
+                                      final Fragment fragment,
+                                      final String TAG,
+                                      final boolean addToBackStack) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         // Insert the fragment by replacing any existing fragment
         FRAGMENT_TAG = TAG;
-        if(addToBackStack){
+        if (addToBackStack) {
             fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.push_down_in,R.anim.push_down_out,R.anim.fade_in,R.anim.fade_out)
-                    .replace(R.id.fragment_container
-                            , fragment,TAG)
+                    .setCustomAnimations(R.anim.push_down_in,
+                            R.anim.push_down_out,
+                            R.anim.fade_in,
+                            R.anim.fade_out)
+                    .replace(R.id.fragment_container, fragment, TAG)
                     .addToBackStack(TAG)
                     .commit();
-        }
-        else
-        {
+        } else {
             fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in,R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)
-                    .replace(R.id.fragment_container
-                            , fragment,TAG)
+                    .setCustomAnimations(R.anim.fade_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.fade_out)
+                    .replace(R.id.fragment_container, fragment, TAG)
                     .commit();
         }
     }
@@ -137,18 +139,22 @@ public class MainActivity extends AppCompatActivity {
         policiesGlossary.add(getString(R.string.glossary));
         policiesGlossary.add(getString(R.string.further_resources));
 
-        listDataChild.put(listDataHeader.get(0), getHelpNow);
-        listDataChild.put(listDataHeader.get(1), circleOfTrust);
-        listDataChild.put(listDataHeader.get(2), safetyTools);
-        listDataChild.put(listDataHeader.get(3), supportServices);
-        listDataChild.put(listDataHeader.get(4), sexualAssaultAwareness);
-        listDataChild.put(listDataHeader.get(5), policiesGlossary);
-        listDataChild.put(listDataHeader.get(6), settings);
-        listDataChild.put(listDataHeader.get(7), userLogin);
+        final int[]availableOptions = new int[]{0, 1, 2, 3,
+                                                 4, 5, 6, 7};
+
+        listDataChild.put(listDataHeader.get(availableOptions[0]), getHelpNow);
+        listDataChild.put(listDataHeader.get(availableOptions[1]), circleOfTrust);
+        listDataChild.put(listDataHeader.get(availableOptions[2]), safetyTools);
+        listDataChild.put(listDataHeader.get(availableOptions[3]), supportServices);
+        listDataChild.put(listDataHeader.get(availableOptions[4]), sexualAssaultAwareness);
+        listDataChild.put(listDataHeader.get(availableOptions[5]), policiesGlossary);
+        listDataChild.put(listDataHeader.get(availableOptions[6]), settings);
+        listDataChild.put(listDataHeader.get(availableOptions[7]), userLogin);
+
     }
 
     @Override
-    public void onBackPressed() {
+    public final void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -158,36 +164,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    protected final void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        try{
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        try {
             unregisterReceiver(CircleOfTrustFragment.sentReceiver);
-        }catch (IllegalArgumentException e){
-            Log.e(TAG,"Not registered");
+        } catch (IllegalArgumentException e) {
+            final String notRegisteredMessage = "Not registered";
+            Log.e(TAG, notRegisteredMessage);
         }
     }
 
     @Override
-    protected void onResume() {
+    protected final void onResume() {
         super.onResume();
         registerReceiver(CircleOfTrustFragment.sentReceiver, new IntentFilter(CircleOfTrustFragment.SENT));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public final boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.menu_settings:
                 Intent intent = new Intent(this, UserSettingsActivity.class);
                 startActivity(intent);
                 break;
+            default:
+                // Do nothing.
         }
         return true;
     }
