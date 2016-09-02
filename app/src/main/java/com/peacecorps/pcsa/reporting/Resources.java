@@ -14,7 +14,7 @@ import com.peacecorps.pcsa.R;
 public class Resources extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting_resources);

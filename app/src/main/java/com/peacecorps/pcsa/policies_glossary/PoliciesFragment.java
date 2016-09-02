@@ -24,37 +24,45 @@ public class PoliciesFragment extends Fragment {
     private Button policyButton, glossaryButton, furtherButton;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             final @Nullable ViewGroup container,
+                             final @Nullable Bundle savedInstanceState) {
 
-        View rootView =  inflater.inflate(R.layout.fragment_policies,container,false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.policies_glossary);
-        policyButton = (Button)rootView.findViewById(R.id.policiesButton);
-        glossaryButton = (Button)rootView.findViewById(R.id.glossaryButton);
-        furtherButton = (Button)rootView.findViewById(R.id.furtherButton);
+        View rootView =  inflater.inflate(R.layout.fragment_policies, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.policies_glossary);
+        policyButton = (Button) rootView.findViewById(R.id.policiesButton);
+        glossaryButton = (Button) rootView.findViewById(R.id.glossaryButton);
+        furtherButton = (Button) rootView.findViewById(R.id.furtherButton);
 
         policyButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                SingleTextViewFragment.showSingleTextLayout(getActivity(),getString(R.string.policies_title),getString(R.string.subtitle_policies)
-                        ,getString(R.string.policies_all));
+            public void onClick(final View v) {
+                SingleTextViewFragment.showSingleTextLayout(getActivity(),
+                        getString(R.string.policies_title),
+                        getString(R.string.subtitle_policies),
+                        getString(R.string.policies_all));
             }
         });
 
         glossaryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping GlossaryFragment into the container
                 GlossaryFragment glossaryFragment = new GlossaryFragment();
-                MainActivity.swapFragmentIn(getActivity(),glossaryFragment,GlossaryFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(), glossaryFragment,
+                        GlossaryFragment.TAG, true);
             }
         });
 
         furtherButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping GlossaryFragment into the container
                 FurtherResourcesFragment furtherResourcesFragment = new FurtherResourcesFragment();
-                MainActivity.swapFragmentIn(getActivity(),furtherResourcesFragment,FurtherResourcesFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        furtherResourcesFragment,
+                        FurtherResourcesFragment.TAG,
+                        true);
             }
         });
 
