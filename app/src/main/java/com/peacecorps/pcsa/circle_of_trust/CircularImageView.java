@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.peacecorps.pcsa.circle_of_trust;
 
 import android.content.Context;
@@ -71,17 +72,17 @@ public class CircularImageView extends ImageView {
     private boolean mReady;
     private boolean mSetupPending;
 
-    public CircularImageView(Context context) {
+    public CircularImageView(final Context context) {
         super(context);
 
         init();
     }
 
-    public CircularImageView(Context context, AttributeSet attrs) {
+    public CircularImageView(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircularImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircularImageView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircularImageView, defStyle, 0);
@@ -110,14 +111,14 @@ public class CircularImageView extends ImageView {
     }
 
     @Override
-    public void setScaleType(ScaleType scaleType) {
+    public void setScaleType(final ScaleType scaleType) {
         if (scaleType != SCALE_TYPE) {
             throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
         }
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         if (getDrawable() == null) {
             return;
         }
@@ -129,7 +130,7 @@ public class CircularImageView extends ImageView {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         setup();
     }
@@ -138,7 +139,7 @@ public class CircularImageView extends ImageView {
         return mBorderColor;
     }
 
-    public void setBorderColor(int borderColor) {
+    public void setBorderColor(final int borderColor) {
         if (borderColor == mBorderColor) {
             return;
         }
@@ -152,7 +153,7 @@ public class CircularImageView extends ImageView {
         return mBorderWidth;
     }
 
-    public void setBorderWidth(int borderWidth) {
+    public void setBorderWidth(final int borderWidth) {
         if (borderWidth == mBorderWidth) {
             return;
         }
@@ -162,28 +163,28 @@ public class CircularImageView extends ImageView {
     }
 
     @Override
-    public void setImageBitmap(Bitmap bm) {
+    public void setImageBitmap(final Bitmap bm) {
         super.setImageBitmap(bm);
         mBitmap = bm;
         setup();
     }
 
     @Override
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(final Drawable drawable) {
         super.setImageDrawable(drawable);
         mBitmap = getBitmapFromDrawable(drawable);
         setup();
     }
 
     @Override
-    public void setImageResource(int resId) {
+    public void setImageResource(final int resId) {
         super.setImageResource(resId);
         mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
     }
 
     @Override
-    public void setImageURI(Uri uri) {
+    public void setImageURI(final Uri uri) {
         super.setImageURI(uri);
         mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
@@ -194,7 +195,7 @@ public class CircularImageView extends ImageView {
      * @param drawable drawable to be used
      * @return bitmap object created using the drawable
      */
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
+    private Bitmap getBitmapFromDrawable(final Drawable drawable) {
         if (drawable == null) {
             return null;
         }
