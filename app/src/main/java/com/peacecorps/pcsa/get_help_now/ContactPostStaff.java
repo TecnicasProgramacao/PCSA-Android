@@ -55,15 +55,33 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        LOCATION_DETAILS.put(getResources().getString(R.string.loc1_name), new LocationDetails(getResources().getString(R.string.loc1_name), getResources().getString(R.string.loc1_pcmo), getResources().getString(R.string.loc1_ssm), getResources().getString(R.string.loc1_sarl)));
-        LOCATION_DETAILS.put(getResources().getString(R.string.loc2_name), new LocationDetails(getResources().getString(R.string.loc2_name), getResources().getString(R.string.loc2_pcmo), getResources().getString(R.string.loc2_ssm), getResources().getString(R.string.loc2_sarl)));
-        LOCATION_DETAILS.put(getResources().getString(R.string.loc3_name), new LocationDetails(getResources().getString(R.string.loc3_name), getResources().getString(R.string.loc3_pcmo), getResources().getString(R.string.loc3_ssm), getResources().getString(R.string.loc3_sarl)));
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc1_name),
+                new LocationDetails(getResources().getString(R.string.loc1_name),
+                        getResources().getString(R.string.loc1_pcmo),
+                        getResources().getString(R.string.loc1_ssm),
+                        getResources().getString(R.string.loc1_sarl)));
+
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc2_name),
+                new LocationDetails(getResources().getString(R.string.loc2_name),
+                        getResources().getString(R.string.loc2_pcmo),
+                        getResources().getString(R.string.loc2_ssm),
+                        getResources().getString(R.string.loc2_sarl)));
+
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc3_name),
+                new LocationDetails(getResources().getString(R.string.loc3_name),
+                        getResources().getString(R.string.loc3_pcmo),
+                        getResources().getString(R.string.loc3_ssm),
+                        getResources().getString(R.string.loc3_sarl)));
 
         Button contactPcmo = (Button) rootView.findViewById(R.id.post_staff_pcmo);
         Button contactSsm = (Button) rootView.findViewById(R.id.post_staff_ssm);
         Button contactSarl = (Button) rootView.findViewById(R.id.post_staff_sarl);
+
         currentLocation = (TextView) rootView.findViewById(R.id.post_staff_current_location);
-        currentLocation.setText(getString(R.string.reporting_current_location) + " " + sharedPreferences.getString(getString(R.string.key_country),"") + getString(R.string.reporting_current_post));
+        currentLocation.setText(getString(R.string.reporting_current_location)
+                                + " " + sharedPreferences.getString(getString(R.string.key_country), "")
+                                      + getString(R.string.reporting_current_post));
+
         ImageView contactOtherStaff = (ImageView) rootView.findViewById(R.id.link_to_other_staff);
 
         contactPcmo.setText(R.string.contact_pcmo);
@@ -72,43 +90,54 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
 
         contactPcmo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 numberToContact = selectedLocationDetails.getPcmoContact();
-                ContactOptionsDialogBox contactOptionsDialogBox = ContactOptionsDialogBox.newInstance(getString(R.string.contact_pcmo_via),
-                        getActivity(),ContactPostStaff.this);
-                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(),getString(R.string.dialog_tag));
+
+                ContactOptionsDialogBox contactOptionsDialogBox =
+                        ContactOptionsDialogBox.newInstance(getString(R.string.contact_pcmo_via),
+                        getActivity(), ContactPostStaff.this);
+
+                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(),
+                        getString(R.string.dialog_tag));
             }
         });
 
         contactSsm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 numberToContact = selectedLocationDetails.getSsmContact();
-                ContactOptionsDialogBox contactOptionsDialogBox = ContactOptionsDialogBox.newInstance(getString(R.string.contact_ssm_via),
-                        getActivity(),ContactPostStaff.this);
-                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(), getString(R.string.dialog_tag));
+                ContactOptionsDialogBox contactOptionsDialogBox =
+                        ContactOptionsDialogBox.newInstance(getString(R.string.contact_ssm_via),
+                        getActivity(), ContactPostStaff.this);
+
+                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(),
+                        getString(R.string.dialog_tag));
             }
         });
 
         contactSarl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 numberToContact = selectedLocationDetails.getSarlContact();
-                ContactOptionsDialogBox contactOptionsDialogBox = ContactOptionsDialogBox.newInstance(getString(R.string.contact_sarl_via),
-                        getActivity(),ContactPostStaff.this);
-                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(), getString(R.string.dialog_tag));
+                ContactOptionsDialogBox contactOptionsDialogBox =
+                        ContactOptionsDialogBox.newInstance(getString(R.string.contact_sarl_via),
+                        getActivity(), ContactPostStaff.this);
+
+                contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(),
+                        getString(R.string.dialog_tag));
             }
         });
-        
+
         contactOtherStaff.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping ContactOtherStaff into the fragment container dynamically
                 Fragment contactOtherStaffFragment = new ContactOtherStaff();
-                MainActivity.swapFragmentIn(getActivity(),contactOtherStaffFragment,ContactOtherStaff.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(), contactOtherStaffFragment,
+                                            ContactOtherStaff.TAG, true);
             }
         });
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.reporting_get_help);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.reporting_get_help);
 
         return rootView;
     }
@@ -117,7 +146,8 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
      * Interface definition for a callback to be invoked when an item in this AdapterView has been clicked.
      *
      * @param parent The AdapterView where the click happened.
-     * @param view  The view within the AdapterView that was clicked (this will be a view provided by the adapter)
+     * @param view  The view within the AdapterView that was clicked.
+     *              This will be a view provided by the adapter.
      * @param position The position of the view in the adapter.
      * @param id The row id of the item that was clicked.
      */
