@@ -1,6 +1,5 @@
 package com.peacecorps.pcsa.safety_tools;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,34 +27,41 @@ import com.peacecorps.pcsa.R;
  */
 public class SafetyPlanBasicsContentFragment extends DialogFragment {
 
-    TextView contenttoDisplay,titleToDisplay;
+    TextView contenttoDisplay;
+    TextView titleToDisplay;
     public static final String TITLE_KEY = "title";
     public static final String CONTENT_KEY = "content";
     LinearLayout parentView;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(final LayoutInflater inflater,
+                                   @Nullable final ViewGroup container,
+                                   @Nullable final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_safety_plan_basics_content, container, false);
         parentView = (LinearLayout) rootView.findViewById(R.id.myView);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         contenttoDisplay = (TextView) rootView.findViewById(R.id.safety_plan_basics_content);
         titleToDisplay = (TextView) rootView.findViewById(R.id.safety_plan_basics_title);
+
         String title = getArguments().getString(TITLE_KEY);
         String content = getArguments().getString(CONTENT_KEY);
+
         contenttoDisplay.setText(Html.fromHtml(content));
         contenttoDisplay.setMovementMethod(new ScrollingMovementMethod());
-        if(title != null) {
+        if (title != null) {
             titleToDisplay.setText(Html.fromHtml(title));
-            titleToDisplay.setTypeface(null,Typeface.BOLD);
-            titleToDisplay.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            titleToDisplay.setTypeface(null, Typeface.BOLD);
+
+            final int titleToDisplayFontSize = 18;
+            titleToDisplay.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleToDisplayFontSize);
             titleToDisplay.setGravity(Gravity.CENTER);
             getDialog().setTitle(title);
-        }
-        else
-        {
+        } else {
             titleToDisplay.setVisibility(View.GONE);
-            contenttoDisplay.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            contenttoDisplay.setLayoutParams(
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
         }
         return rootView;
     }
@@ -65,14 +71,19 @@ public class SafetyPlanBasicsContentFragment extends DialogFragment {
      * @param title title of the dialog box
      * @param contentToShow  data to be displayed
      */
-    public static void showDialog(FragmentActivity context, String title, String contentToShow)
-    {
+    public static void showDialog(final FragmentActivity context,
+                                  final String title,
+                                  final String contentToShow) {
+
         FragmentManager fm = context.getSupportFragmentManager();
-        SafetyPlanBasicsContentFragment safetyPlanBasicsContentFragment = new SafetyPlanBasicsContentFragment();
+
+        SafetyPlanBasicsContentFragment safetyPlanBasicsContentFragment =
+                new SafetyPlanBasicsContentFragment();
+
         Bundle bundle = new Bundle();
-        bundle.putString(TITLE_KEY,title);
-        bundle.putString(CONTENT_KEY,contentToShow);
+        bundle.putString(TITLE_KEY, title);
+        bundle.putString(CONTENT_KEY, contentToShow);
         safetyPlanBasicsContentFragment.setArguments(bundle);
-        safetyPlanBasicsContentFragment.show(fm,"Sample Fragment");
+        safetyPlanBasicsContentFragment.show(fm, "Sample Fragment");
     }
 }

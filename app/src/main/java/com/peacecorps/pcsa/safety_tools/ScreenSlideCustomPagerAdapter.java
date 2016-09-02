@@ -21,28 +21,29 @@ public class ScreenSlideCustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
     private int[] steps;
-    int no_of_pages;
+    int numberOfPages;
 
-    public ScreenSlideCustomPagerAdapter(Context context,int[] steps,int no_of_pages)
-    {
+    public ScreenSlideCustomPagerAdapter(final Context context,
+                                         final int[] steps,
+                                         final int numberOfPages) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.steps = steps;
-        this.no_of_pages = no_of_pages;
+        this.numberOfPages = numberOfPages;
     }
     @Override
-    public int getCount() {
-        return no_of_pages;
+    public final int getCount() {
+        return numberOfPages;
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public final boolean isViewFromObject(final View view, final Object object) {
         return view == object;
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.fragment_viewpager, container,false);
+    public final Object instantiateItem(final ViewGroup container, final int position) {
+        View itemView = mLayoutInflater.inflate(R.layout.fragment_viewpager, container, false);
         TextView textView = (TextView) itemView.findViewById(R.id.text_to_show);
         textView.setText(Html.fromHtml(mContext.getString(steps[position])));
         container.addView(itemView);
@@ -50,7 +51,9 @@ public class ScreenSlideCustomPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public final void destroyItem(final ViewGroup container,
+                                  final int position,
+                                  final Object object) {
         container.removeView((View) object);
     }
 }

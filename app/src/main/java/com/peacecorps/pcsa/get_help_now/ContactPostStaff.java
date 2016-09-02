@@ -141,7 +141,6 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
 
         return rootView;
     }
-    
     /**
      * Interface definition for a callback to be invoked when an item in this AdapterView has been clicked.
      *
@@ -152,17 +151,17 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
      * @param id The row id of the item that was clicked.
      */
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public final void onItemClick(final AdapterView<?> parent,
+                                  final View view,
+                                  final int position,
+                                  final long id) {
 
         //For Voice Call
-        if(position == 1)
-        {
+        if (position == 1) {
             Intent callingIntent = new Intent(Intent.ACTION_CALL);
             callingIntent.setData(Uri.parse("tel:" + numberToContact));
             startActivity(callingIntent);
-        }
-        //For Message
-        else if(position == 2) {
+        } else if (position == 2) {  //For Message
             Intent smsIntent = new Intent(Intent.ACTION_VIEW);
             smsIntent.setData(Uri.parse("sms:" + numberToContact));
             startActivity(smsIntent);
@@ -170,10 +169,16 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void onResume() {
+    public final void onResume() {
         super.onResume();
-        selectedLocationDetails = LOCATION_DETAILS.get(sharedPreferences.getString(getString(R.string.key_country),getString(R.string.country_default)));
-        if(currentLocation != null)
-            currentLocation.setText(getString(R.string.reporting_current_location) + " " + sharedPreferences.getString(getString(R.string.key_country),"")+ getString(R.string.reporting_current_post));
+        selectedLocationDetails = LOCATION_DETAILS.get(
+                sharedPreferences.getString(getString(R.string.key_country),
+                getString(R.string.country_default)));
+
+        if (currentLocation != null) {
+            currentLocation.setText(getString(R.string.reporting_current_location)
+                    + " " + sharedPreferences.getString(getString(R.string.key_country), "")
+                    + getString(R.string.reporting_current_post));
+        }
     }
 }
