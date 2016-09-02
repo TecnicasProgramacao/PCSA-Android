@@ -25,39 +25,41 @@ import java.util.Map;
  */
 public class GlossaryAdapter extends BaseExpandableListAdapter {
 
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
+    private Context glossaryAdapterContext;
+    private List<String> glossaryAdapterListDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, List<String>> glossaryAdapterListDataChild;
     private ExpandableListView listView;
 
-    public GlossaryAdapter(Context context, List<String> listDataHeader,
-                           HashMap<String, List<String>> listChildData, ExpandableListView expandableListView) {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+    public GlossaryAdapter(final Context context,
+                           final List<String> listDataHeader,
+                           final HashMap<String, List<String>> listChildData,
+                           final ExpandableListView expandableListView) {
+        this.glossaryAdapterContext = context;
+        this.glossaryAdapterListDataHeader = listDataHeader;
+        this.glossaryAdapterListDataChild = listChildData;
         this.listView = expandableListView;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+    public final Object getChild(final int groupPosition, final int childPosition) {
+        return this.glossaryAdapterListDataChild.get(this.glossaryAdapterListDataHeader.get(groupPosition))
                 .get(childPosition);
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
+    public final long getChildId(final int groupPosition, final int childPosition) {
         return childPosition;
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public final View getChildView(final int groupPosition, final int childPosition,
+                                   final boolean isLastChild, View convertView, final ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this._context
+            LayoutInflater inflater = (LayoutInflater) this.glossaryAdapterContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.fragment_glossary_meaning, null);
         }
@@ -70,32 +72,32 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+    public final int getChildrenCount(final int groupPosition) {
+        return this.glossaryAdapterListDataChild.get(this.glossaryAdapterListDataHeader.get(groupPosition))
                 .size();
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+    public final Object getGroup(final int groupPosition) {
+        return this.glossaryAdapterListDataHeader.get(groupPosition);
     }
 
     @Override
-    public int getGroupCount() {
-        return this._listDataHeader.size();
+    public final int getGroupCount() {
+        return this.glossaryAdapterListDataHeader.size();
     }
 
     @Override
-    public long getGroupId(int groupPosition) {
+    public final long getGroupId(final int groupPosition) {
         return groupPosition;
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public final View getGroupView(final int groupPosition, final boolean isExpanded,
+                             View convertView, final ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this._context
+            LayoutInflater inflater = (LayoutInflater) this.glossaryAdapterContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.fragment_glossary_item, null);
         }
@@ -109,38 +111,42 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public boolean hasStableIds() {
+    public final boolean hasStableIds() {
         return false;
     }
 
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
+    public final boolean isChildSelectable(final int groupPosition, final int childPosition) {
         return true;
     }
 
-    public void filter(String textEntered)
-    {
-        prepareListData(_context,_listDataHeader,_listDataChild);
-        Iterator listIt = _listDataHeader.iterator();
-        while (listIt.hasNext())
-        {
+    public final void filter(final String textEntered) {
+        prepareListData(glossaryAdapterContext,
+                        glossaryAdapterListDataHeader,
+                        glossaryAdapterListDataChild);
+
+        Iterator listIt = glossaryAdapterListDataHeader.iterator();
+        while (listIt.hasNext()) {
             String next = (String) listIt.next();
-            if(next.length() < textEntered.length() || !next.toUpperCase().startsWith(textEntered.toUpperCase())){
+            if (next.length() < textEntered.length()
+                    || !next.toUpperCase().startsWith(textEntered.toUpperCase())) {
                 listIt.remove();
             }
         }
 
-        for(Iterator<Map.Entry<String, List<String>>> it = _listDataChild.entrySet().iterator(); it.hasNext(); ) {
+        for (Iterator<Map.Entry<String, List<String>>>
+             it = glossaryAdapterListDataChild.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, List<String>> entry = it.next();
-            if(!_listDataHeader.contains(entry.getKey())) {
+            if (!glossaryAdapterListDataHeader.contains(entry.getKey())) {
                 it.remove();
             }
         }
         notifyDataSetChanged();
     }
 
-    public static void prepareListData(Context context,List<String> listDataHeader,HashMap<String, List<String>> listDataChild)
-    {
+    public static void prepareListData(final Context context,
+                                       final List<String> listDataHeader,
+                                       final HashMap<String, List<String>> listDataChild) {
         listDataChild.clear();
         listDataHeader.clear();
 
@@ -211,9 +217,9 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
         List<String> security = new ArrayList<String>();
         security.add(context.getString(R.string.security_info));
 
-        List<String> sexual_assault = new ArrayList<String>();
+        List<String> sexualAssault = new ArrayList<String>();
 
-        sexual_assault.add(context.getString(R.string.sexual_assault_info1));
+        sexualAssault.add(context.getString(R.string.sexual_assault_info1));
 
         List<String> exploit = new ArrayList<String>();
         exploit.add(context.getString(R.string.exploitation_info));
@@ -239,28 +245,34 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
         List<String> vulnerability = new ArrayList<String>();
         vulnerability.add(context.getString(R.string.vulnerability_info));
 
-        listDataChild.put(listDataHeader.get(0), assault);
-        listDataChild.put(listDataHeader.get(1), assailant);
-        listDataChild.put(listDataHeader.get(2), burglary);
-        listDataChild.put(listDataHeader.get(3), intervention);
-        listDataChild.put(listDataHeader.get(4), phenomenon);
-        listDataChild.put(listDataHeader.get(5), cyber);
-        listDataChild.put(listDataHeader.get(6), danger);
-        listDataChild.put(listDataHeader.get(7), mitigate);
-        listDataChild.put(listDataHeader.get(8), pii);
-        listDataChild.put(listDataHeader.get(9), rape);
-        listDataChild.put(listDataHeader.get(10), risk);
-        listDataChild.put(listDataHeader.get(11), rob);
-        listDataChild.put(listDataHeader.get(12), safe);
-        listDataChild.put(listDataHeader.get(13), security);
-        listDataChild.put(listDataHeader.get(14), sexual_assault);
-        listDataChild.put(listDataHeader.get(15), exploit);
-        listDataChild.put(listDataHeader.get(16), harass);
-        listDataChild.put(listDataHeader.get(17), misconduct);
-        listDataChild.put(listDataHeader.get(18), predator);
-        listDataChild.put(listDataHeader.get(19), threat);
-        listDataChild.put(listDataHeader.get(20), stalk);
-        listDataChild.put(listDataHeader.get(21), theft);
-        listDataChild.put(listDataHeader.get(22), vulnerability);
+        final int availableOptions[] = new int[]{0, 1, 2, 3, 4, 5,
+                                                 6, 7, 8, 9, 10, 11,
+                                                 12, 13, 14, 15, 16, 17,
+                                                 18, 19, 20, 21, 22};
+
+        listDataChild.put(listDataHeader.get(availableOptions[0]), assault);
+        listDataChild.put(listDataHeader.get(availableOptions[1]), assailant);
+        listDataChild.put(listDataHeader.get(availableOptions[2]), burglary);
+        listDataChild.put(listDataHeader.get(availableOptions[3]), intervention);
+        listDataChild.put(listDataHeader.get(availableOptions[4]), phenomenon);
+        listDataChild.put(listDataHeader.get(availableOptions[5]), cyber);
+        listDataChild.put(listDataHeader.get(availableOptions[6]), danger);
+        listDataChild.put(listDataHeader.get(availableOptions[7]), mitigate);
+        listDataChild.put(listDataHeader.get(availableOptions[8]), pii);
+        listDataChild.put(listDataHeader.get(availableOptions[9]), rape);
+        listDataChild.put(listDataHeader.get(availableOptions[10]), risk);
+        listDataChild.put(listDataHeader.get(availableOptions[11]), rob);
+        listDataChild.put(listDataHeader.get(availableOptions[12]), safe);
+        listDataChild.put(listDataHeader.get(availableOptions[13]), security);
+        listDataChild.put(listDataHeader.get(availableOptions[14]), sexualAssault);
+        listDataChild.put(listDataHeader.get(availableOptions[15]), exploit);
+        listDataChild.put(listDataHeader.get(availableOptions[16]), harass);
+        listDataChild.put(listDataHeader.get(availableOptions[17]), misconduct);
+        listDataChild.put(listDataHeader.get(availableOptions[18]), predator);
+        listDataChild.put(listDataHeader.get(availableOptions[19]), threat);
+        listDataChild.put(listDataHeader.get(availableOptions[20]), stalk);
+        listDataChild.put(listDataHeader.get(availableOptions[21]), theft);
+        listDataChild.put(listDataHeader.get(availableOptions[22]), vulnerability);
+
     }
 }
