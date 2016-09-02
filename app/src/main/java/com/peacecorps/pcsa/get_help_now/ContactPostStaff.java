@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class ContactPostStaff extends Fragment implements AdapterView.OnItemClickListener {
 
-    public static final String TAG = ContactPostStaff.class.getSimpleName() ;
+    public static final String TAG = ContactPostStaff.class.getSimpleName();
 
     SharedPreferences sharedPreferences;
 
@@ -39,22 +39,25 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
     LocationDetails selectedLocationDetails;
     private String numberToContact;
 
-    private static final Map<String, LocationDetails> locationDetails;
+    private static final Map<String, LocationDetails> LOCATION_DETAILS;
+
     static {
-        locationDetails = new HashMap<>();
+        LOCATION_DETAILS = new HashMap<>();
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(final LayoutInflater inflater,
+                                   @Nullable final ViewGroup container,
+                                   @Nullable final Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_reporting_contact_post_staff,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_reporting_contact_post_staff, container, false);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        locationDetails.put(getResources().getString(R.string.loc1_name), new LocationDetails(getResources().getString(R.string.loc1_name), getResources().getString(R.string.loc1_pcmo), getResources().getString(R.string.loc1_ssm), getResources().getString(R.string.loc1_sarl)));
-        locationDetails.put(getResources().getString(R.string.loc2_name), new LocationDetails(getResources().getString(R.string.loc2_name), getResources().getString(R.string.loc2_pcmo), getResources().getString(R.string.loc2_ssm), getResources().getString(R.string.loc2_sarl)));
-        locationDetails.put(getResources().getString(R.string.loc3_name), new LocationDetails(getResources().getString(R.string.loc3_name), getResources().getString(R.string.loc3_pcmo), getResources().getString(R.string.loc3_ssm), getResources().getString(R.string.loc3_sarl)));
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc1_name), new LocationDetails(getResources().getString(R.string.loc1_name), getResources().getString(R.string.loc1_pcmo), getResources().getString(R.string.loc1_ssm), getResources().getString(R.string.loc1_sarl)));
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc2_name), new LocationDetails(getResources().getString(R.string.loc2_name), getResources().getString(R.string.loc2_pcmo), getResources().getString(R.string.loc2_ssm), getResources().getString(R.string.loc2_sarl)));
+        LOCATION_DETAILS.put(getResources().getString(R.string.loc3_name), new LocationDetails(getResources().getString(R.string.loc3_name), getResources().getString(R.string.loc3_pcmo), getResources().getString(R.string.loc3_ssm), getResources().getString(R.string.loc3_sarl)));
 
         Button contactPcmo = (Button) rootView.findViewById(R.id.post_staff_pcmo);
         Button contactSsm = (Button) rootView.findViewById(R.id.post_staff_ssm);
@@ -139,7 +142,7 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onResume() {
         super.onResume();
-        selectedLocationDetails = locationDetails.get(sharedPreferences.getString(getString(R.string.key_country),getString(R.string.country_default)));
+        selectedLocationDetails = LOCATION_DETAILS.get(sharedPreferences.getString(getString(R.string.key_country),getString(R.string.country_default)));
         if(currentLocation != null)
             currentLocation.setText(getString(R.string.reporting_current_location) + " " + sharedPreferences.getString(getString(R.string.key_country),"")+ getString(R.string.reporting_current_post));
     }
