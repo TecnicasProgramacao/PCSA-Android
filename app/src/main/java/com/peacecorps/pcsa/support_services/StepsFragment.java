@@ -21,25 +21,28 @@ import com.peacecorps.pcsa.R;
 public class StepsFragment extends Fragment {
 
     public final static String TAG = StepsFragment.class.getSimpleName();
-    
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_reporting_steps,container,false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.after_assault);
-        TextView reporting_step1 = (TextView) rootView.findViewById(R.id.reporting_step1);
-        TextView reporting_step2 = (TextView) rootView.findViewById(R.id.reporting_step2);
-        TextView reporting_step3 = (TextView) rootView.findViewById(R.id.reporting_step3);
-        TextView reporting_step4 = (TextView) rootView.findViewById(R.id.reporting_step4);
-        TextView reporting_step5 = (TextView) rootView.findViewById(R.id.reporting_step5);
-        TextView reporting_step6 = (TextView) rootView.findViewById(R.id.reporting_step6);
+    public View onCreateView(final LayoutInflater inflater,
+                             final @Nullable ViewGroup container,
+                             final @Nullable Bundle savedInstanceState) {
+        View rootView =  inflater.inflate(R.layout.fragment_reporting_steps,
+                container,
+                false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.after_assault);
+        TextView reportingStep1 = (TextView) rootView.findViewById(R.id.reporting_step1);
+        TextView reportingStep2 = (TextView) rootView.findViewById(R.id.reporting_step2);
+        TextView reportingStep3 = (TextView) rootView.findViewById(R.id.reporting_step3);
+        TextView reportingStep4 = (TextView) rootView.findViewById(R.id.reporting_step4);
+        TextView reportingStep5 = (TextView) rootView.findViewById(R.id.reporting_step5);
+        TextView reportingStep6 = (TextView) rootView.findViewById(R.id.reporting_step6);
 
-        reporting_step1.setText(Html.fromHtml(getResources().getString(R.string.reporting_step1)));
-        reporting_step2.setText(Html.fromHtml(getResources().getString(R.string.reporting_step2)));
-        reporting_step3.setText(Html.fromHtml(getResources().getString(R.string.reporting_step3)));
-        reporting_step4.setText(Html.fromHtml(getResources().getString(R.string.reporting_step4)));
-        reporting_step5.setText(Html.fromHtml(getResources().getString(R.string.reporting_step5)));
-        reporting_step6.setText(Html.fromHtml(getResources().getString(R.string.reporting_step6)));
+        reportingStep1.setText(Html.fromHtml(getResources().getString(R.string.reporting_step1)));
+        reportingStep2.setText(Html.fromHtml(getResources().getString(R.string.reporting_step2)));
+        reportingStep3.setText(Html.fromHtml(getResources().getString(R.string.reporting_step3)));
+        reportingStep4.setText(Html.fromHtml(getResources().getString(R.string.reporting_step4)));
+        reportingStep5.setText(Html.fromHtml(getResources().getString(R.string.reporting_step5)));
+        reportingStep6.setText(Html.fromHtml(getResources().getString(R.string.reporting_step6)));
         return rootView;
     }
 }
