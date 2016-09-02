@@ -207,9 +207,13 @@ public class CircleOfTrustFragment extends Fragment {
      * @param appcontext
      * @return true if the device is connected
      */
-    public static boolean checkMobileNetworkAvailable(Context appcontext) {
+    public static boolean checkMobileNetworkAvailable(final Context appcontext) {
         TelephonyManager tel = (TelephonyManager) appcontext.getSystemService(Context.TELEPHONY_SERVICE);
-        return (tel.getNetworkOperator() != null && tel.getNetworkOperator().equals("") ? false : true);
+        if (tel.getNetworkOperator() != null && tel.getNetworkOperator().equals("")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -233,8 +237,7 @@ public class CircleOfTrustFragment extends Fragment {
             loadPhoneNumbers();
         }
         //reset to defaults
-        for(ImageView view:comradesViews)
-        {
+        for (ImageView view:comradesViews) {
             view.setImageResource(R.drawable.ic_comrade);
         }
 
@@ -260,22 +263,22 @@ public class CircleOfTrustFragment extends Fragment {
      * Sends a message to the comrades' phone numbers
      * @param optionSelected selected option
      */
-    public void sendMessage(String optionSelected)
-    {
+    public void sendMessage(final String optionSelected) {
         SmsManager sms = SmsManager.getDefault();
         String message = "";
-        switch(optionSelected)
-        {
+        switch (optionSelected) {
             case SmsConstants.COME_GET_ME:
                 Location location = locationHelper.retrieveLocation(false);
-                if(location == null) {
+                if (location == null) {
                     message = getString(R.string.come_get_me_message);
-                }else{
+                } else {
                     message = getString(R.string.come_get_me_message_with_location);
-                    message = message.replace(Constants.TAG_LOCATION,location.getLatitude() +"," + location.getLongitude());
-                    String locationUrl = Constants.LOCATION_URL.replace("LAT" , String.valueOf(location.getLatitude()))
-                            .replace("LON" , String.valueOf(location.getLongitude()));
-                    message = message.replace(Constants.TAG_LOCATION_URL,locationUrl);
+                    message = message.replace(Constants.TAG_LOCATION, location.getLatitude()
+                            + "," + location.getLongitude());
+                    String locationUrl = Constants.LOCATION_URL.replace("LAT",
+                            String.valueOf(location.getLatitude())).replace("LON",
+                            String.valueOf(location.getLongitude()));
+                    message = message.replace(Constants.TAG_LOCATION_URL, locationUrl);
                 }
                 break;
             case SmsConstants.CALL_NEED_INTERRUPTION:
@@ -284,18 +287,20 @@ public class CircleOfTrustFragment extends Fragment {
             case SmsConstants.NEED_TO_TALK:
                 message = getString(R.string.need_to_talk_message);
                 break;
+            default:
+                //Nothing to do
         }
 
-        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES,
+                Context.MODE_PRIVATE);
 
-        if(phoneNumbers == null)
-        {
+        if (phoneNumbers == null) {
             loadPhoneNumbers();
         }
         // The numbers variable holds the Comrades numbers
         numbers = phoneNumbers;
 
-        int counter=0;
+        int counter = 0;
 
         //Fix sending messages if the length is more than single sms limit
         ArrayList<String> parts = sms.divideMessage(message);
@@ -305,40 +310,51 @@ public class CircleOfTrustFragment extends Fragment {
                     SENT), 0));
         }
         int numRegisteredComrades = 0;
-        for(String number : numbers) {
+        for (String number : numbers) {
             if (!number.isEmpty()) {
                 numRegisteredComrades++;
             }
         }
         msgParts = numParts * numRegisteredComrades;
         firstTime = true;
-        for(String number : numbers) {
+        for (String number : numbers) {
             if (!number.isEmpty()) {
-                try{
+                try {
                     sms.sendMultipartTextMessage(number, null, parts, sentIntents, null);
                 }
-                catch(Exception e){
-                    Toast.makeText(getActivity(), R.string.message_failed + (counter+1), Toast.LENGTH_LONG).show();
+                catch (Exception e) {
+                    Toast.makeText(getActivity(),
+                            R.string.message_failed + (counter + 1),
+                            Toast.LENGTH_LONG).show();
                 }
                 counter++;
             }
         }
-        if(counter!=0)
-        {
+        if (counter != 0) {
             String contentToPost;
 
             //For 1 comrade
-            if(counter == 1)
-                contentToPost = getString(R.string.confirmation_message1)+ " " + counter + " "+ getString(R.string.confirmation_message3) +" " + getString(R.string.receive_log);
-            else
-                contentToPost = getString(R.string.confirmation_message1)+ " " + counter + " "+ getString(R.string.confirmation_message2)+ " " + getString(R.string.receive_log);
-            CustomAlertDialogFragment customAlertDialogFragment = CustomAlertDialogFragment.newInstance(getString(R.string.msg_sent),contentToPost);
-            customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.dialog_tag));
+            if (counter == 1) {
+                contentToPost = getString(R.string.confirmation_message1)
+                        + " " + counter + " " + getString(R.string.confirmation_message3) + " "
+                        + getString(R.string.receive_log);
+            }
+            else {
+                contentToPost = getString(R.string.confirmation_message1) + " "
+                        + counter + " " + getString(R.string.confirmation_message2) + " "
+                        + getString(R.string.receive_log);
+                CustomAlertDialogFragment customAlertDialogFragment =
+                        CustomAlertDialogFragment.newInstance(getString(R.string.msg_sent), contentToPost);
+                customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),
+                        getString(R.string.dialog_tag));
+            }
         }
-        else
-        {
-            CustomAlertDialogFragment customAlertDialogFragment = CustomAlertDialogFragment.newInstance(getString(R.string.no_comrade_title),getString(R.string.no_comrade_msg));
-            customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.dialog_tag));
+        else {
+            CustomAlertDialogFragment customAlertDialogFragment =
+                    CustomAlertDialogFragment.newInstance(getString(R.string.no_comrade_title),
+                            getString(R.string.no_comrade_msg));
+            customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),
+                    getString(R.string.dialog_tag));
         }
     }
 
