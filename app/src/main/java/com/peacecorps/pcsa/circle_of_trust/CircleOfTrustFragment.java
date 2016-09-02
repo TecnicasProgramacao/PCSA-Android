@@ -141,8 +141,7 @@ public class CircleOfTrustFragment extends Fragment {
                         if (!numbers[i].isEmpty()) {
                             if (!sent.get(i)) {
                                 logMessage += numbers[i] + " : " + getString(R.string.sms_send_pass);
-                            }
-                            else {
+                            } else {
                                 logMessage += numbers[i] + " : " + getString(R.string.sms_send_fail);
                             }
                             logMessage += "\n";
@@ -181,8 +180,7 @@ public class CircleOfTrustFragment extends Fragment {
                             MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
                     messageDialogBox.show(getActivity().getSupportFragmentManager(),
                             getString(R.string.message_options));
-                }
-                else {
+                } else {
                     if (vibrator.hasVibrator()) {
                         // Only perform failure pattern one time (-1 means "do not repeat")
                         vibrator.vibrate(patternFailure, -1);
@@ -321,8 +319,7 @@ public class CircleOfTrustFragment extends Fragment {
             if (!number.isEmpty()) {
                 try {
                     sms.sendMultipartTextMessage(number, null, parts, sentIntents, null);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Toast.makeText(getActivity(),
                             R.string.message_failed + (counter + 1),
                             Toast.LENGTH_LONG).show();
@@ -338,8 +335,7 @@ public class CircleOfTrustFragment extends Fragment {
                 contentToPost = getString(R.string.confirmation_message1)
                         + " " + counter + " " + getString(R.string.confirmation_message3) + " "
                         + getString(R.string.receive_log);
-            }
-            else {
+            } else {
                 contentToPost = getString(R.string.confirmation_message1) + " "
                         + counter + " " + getString(R.string.confirmation_message2) + " "
                         + getString(R.string.receive_log);
@@ -348,8 +344,7 @@ public class CircleOfTrustFragment extends Fragment {
                 customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),
                         getString(R.string.dialog_tag));
             }
-        }
-        else {
+        } else {
             CustomAlertDialogFragment customAlertDialogFragment =
                     CustomAlertDialogFragment.newInstance(getString(R.string.no_comrade_title),
                             getString(R.string.no_comrade_msg));
@@ -363,12 +358,13 @@ public class CircleOfTrustFragment extends Fragment {
      * @return true if the number retrieval is success
      */
     private boolean loadPhoneNumbers() {
-        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES,
+                Context.MODE_PRIVATE);
         try {
 
             phoneNumbers = new String[Trustees.NUMBER_OF_COMRADES];
-            for(int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
-                phoneNumbers[i] = sharedPreferences.getString( Trustees.COMRADE_KEY.get( i ), "" );
+            for (int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
+                phoneNumbers[i] = sharedPreferences.getString(Trustees.COMRADE_KEY.get(i), "");
             }
 
             return true;
@@ -380,25 +376,25 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_TRUSTEES) {
+        if (requestCode == REQUEST_CODE_TRUSTEES) {
             refreshPhotos();
             Iterator it = allNames.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                allTextViews[(Integer)pair.getKey() - 1].setText(pair.getValue().toString());
-                editor.putString(NAME_KEY + ((Integer)pair.getKey()-1),pair.getValue().toString());
+                Map.Entry pair = (Map.Entry) it.next();
+                allTextViews[(Integer) pair.getKey() - 1].setText(pair.getValue().toString());
+                editor.putString(NAME_KEY + ((Integer) pair.getKey() - 1), pair.getValue().toString());
             }
 
-            for(int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
-                if(!allNames.containsKey(i+1) && !(phoneNumbers[i].isEmpty())){
+            for (int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
+                if (!allNames.containsKey(i + 1) && !(phoneNumbers[i].isEmpty())) {
                     allTextViews[i].setText(phoneNumbers[i]);
-                    editor.putString(NAME_KEY + i,phoneNumbers[i]);
+                    editor.putString(NAME_KEY + i, phoneNumbers[i]);
                 }
-                if(phoneNumbers[i].isEmpty()) {
+                if (phoneNumbers[i].isEmpty()) {
                     allTextViews[i].setText(getString(R.string.unregistered));
-                    editor.putString(NAME_KEY + i,getString(R.string.unregistered));
+                    editor.putString(NAME_KEY + i, getString(R.string.unregistered));
                 }
             }
             editor.commit();
@@ -413,4 +409,3 @@ public class CircleOfTrustFragment extends Fragment {
         loadContactPhotos();
     }
 }
-
