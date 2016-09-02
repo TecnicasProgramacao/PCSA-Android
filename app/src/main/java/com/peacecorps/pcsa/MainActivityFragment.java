@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.peacecorps.pcsa.circle_of_trust.CircleIntro;
 import com.peacecorps.pcsa.circle_of_trust.CircleOfTrustFragment;
@@ -31,8 +30,9 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         Button circleButton = (Button) rootView.findViewById(R.id.circleButton);
         Button getHelpNowButton = (Button) rootView.findViewById(R.id.getButton);
@@ -40,63 +40,80 @@ public class MainActivityFragment extends Fragment {
         Button supportServicesButton = (Button) rootView.findViewById(R.id.supportServicesButton);
         Button assaultAwarenessButton = (Button) rootView.findViewById(R.id.assaultAwarenessButton);
         Button policiesButton = (Button) rootView.findViewById(R.id.policiesButton);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.first_aide);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.first_aide);
 
         safetyToolsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping Safety Tools HomeFragment Screen into the fragment container
                 Fragment safetyToolsFragment = new SafetyToolsFragment();
-                MainActivity.swapFragmentIn(getActivity(),safetyToolsFragment,SafetyToolsFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        safetyToolsFragment,
+                        SafetyToolsFragment.TAG,
+                        true);
             }
         });
         getHelpNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
                 //Swapping ContactPostStaff into the fragment container dynamically
                 Fragment contactPostStaffFragment = new ContactPostStaff();
-                MainActivity.swapFragmentIn(getActivity(),contactPostStaffFragment,ContactPostStaff.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        contactPostStaffFragment,
+                        ContactPostStaff.TAG,
+                        true);
             }
         });
 
         supportServicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping Support Services HomeFragment into the fragment container dynamically
                 Fragment supportServicesFragment = new SupportServicesFragment();
-                MainActivity.swapFragmentIn(getActivity(),supportServicesFragment,SupportServicesFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        supportServicesFragment,
+                        SupportServicesFragment.TAG,
+                        true);
             }
         });
 
         assaultAwarenessButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping Sexual Assault MainScreen into the fragment container dynamically
                 Fragment assaultAwarenessFragment = new MainFragment();
-                MainActivity.swapFragmentIn(getActivity(),assaultAwarenessFragment,MainFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        assaultAwarenessFragment,
+                        MainFragment.TAG,
+                        true);
             }
         });
 
         policiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping PoliciesFragment into the fragment container dynamically
                 Fragment policiesFragment = new PoliciesFragment();
-                MainActivity.swapFragmentIn(getActivity(),policiesFragment, PoliciesFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        policiesFragment,
+                        PoliciesFragment.TAG,
+                        true);
             }
         });
 
         circleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(!introFinished)
-                    startActivityForResult(new Intent(getActivity(), CircleIntro.class),2);
-                else
-                {
+            public void onClick(final View v) {
+                if (!introFinished) {
+                    startActivityForResult(new Intent(getActivity(), CircleIntro.class), 2);
+                } else {
                     //Swapping CircleOfTrustFragment into the container
                     CircleOfTrustFragment circleOfTrustFragment = new CircleOfTrustFragment();
-                    MainActivity.swapFragmentIn(getActivity(),circleOfTrustFragment,CircleOfTrustFragment.TAG,true);
+                    MainActivity.swapFragmentIn(getActivity(),
+                            circleOfTrustFragment,
+                            CircleOfTrustFragment.TAG,
+                            true);
                 }
             }
         });
@@ -104,15 +121,19 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case 2:
                 introFinished = true;
                 //Swapping CircleOfTrustFragment into the container
                 CircleOfTrustFragment circleOfTrustFragment = new CircleOfTrustFragment();
-                MainActivity.swapFragmentIn(getActivity(),circleOfTrustFragment,CircleOfTrustFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        circleOfTrustFragment,
+                        CircleOfTrustFragment.TAG,
+                        true);
+            default:
+                //Nothing to do
         }
     }
 }
