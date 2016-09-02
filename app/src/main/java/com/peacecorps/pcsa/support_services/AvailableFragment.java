@@ -25,9 +25,13 @@ public class AvailableFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_reporting_types,container,false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.available_services_custom);
+    public final View onCreateView(final LayoutInflater inflater,
+                             @Nullable final ViewGroup container,
+                             @Nullable final Bundle savedInstanceState) {
+
+        View rootView =  inflater.inflate(R.layout.fragment_reporting_types, container, false);
+        ((AppCompatActivity) getActivity()).
+                getSupportActionBar().setTitle(R.string.available_services_custom);
 
         TextView descBoth = (TextView) rootView.findViewById(R.id.reporting_both);
         TextView descStandard = (TextView) rootView.findViewById(R.id.reporting_standard);
@@ -41,10 +45,11 @@ public class AvailableFragment extends Fragment {
 
         faq.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title_activity_faq);
+            public void onClick(final View v) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar()
+                        .setTitle(R.string.title_activity_faq);
                 Fragment faqFragment = new FAQFragment();
-                MainActivity.swapFragmentIn(getActivity(),faqFragment, FAQFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(), faqFragment, FAQFragment.TAG, true);
 
             }
         });
