@@ -27,7 +27,7 @@ public class SafetyPlanActivity extends AppCompatActivity {
     private ViewPager viewPager;
     public static final int PAGES = 2;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safety_plan);
 
@@ -41,7 +41,7 @@ public class SafetyPlanActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(final ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PhysicalSafetyFragment(), getString(R.string.physical_safety));
         adapter.addFragment(new HomeFragment(), getString(R.string.home_fragment));
@@ -56,12 +56,12 @@ public class SafetyPlanActivity extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(final FragmentManager manager) {
             super(manager);
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(final int position) {
             Fragment fragment = mFragmentList.get(position);
             return fragment;
         }
@@ -71,13 +71,13 @@ public class SafetyPlanActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        public void addFragment(final Fragment fragment, final String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(final int position) {
             return mFragmentTitleList.get(position);
         }
     }

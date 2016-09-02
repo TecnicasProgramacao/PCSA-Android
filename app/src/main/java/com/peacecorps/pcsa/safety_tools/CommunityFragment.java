@@ -23,28 +23,32 @@ public class CommunityFragment extends Fragment {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    int[] contentToDisplay = new int[]{R.string.safety_plan_5_concerns,R.string.safety_plan_5_action};
-    Button actionButton;
+    private int[] contentToDisplay = new int[]{
+            R.string.safety_plan_5_concerns,
+            R.string.safety_plan_5_action
+    };
+    private Button actionButton;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             final @Nullable ViewGroup container,
+                             final @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_safety_plan_common, container, false);
         mPager = (ViewPager) rootView.findViewById(R.id.safety_plan_pager);
         actionButton = (Button) rootView.findViewById(R.id.actionButton);
-        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(), contentToDisplay, SafetyPlanActivity.PAGES);
+        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
+                contentToDisplay,
+                SafetyPlanActivity.PAGES);
         mPager.setAdapter(mPagerAdapter);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(actionButton.getText().toString().equals(getString(R.string.see_action)))
-                {
+            public void onClick(final View v) {
+                if (actionButton.getText().toString().equals(getString(R.string.see_action))) {
                     actionButton.setText(Html.fromHtml(getString(R.string.see_concerns)));
                     mPager.setCurrentItem(1);
-                }
-                else
-                {
+                } else {
                     actionButton.setText(Html.fromHtml(getString(R.string.see_action)));
                     mPager.setCurrentItem(0);
                 }
@@ -53,25 +57,26 @@ public class CommunityFragment extends Fragment {
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(final int position,
+                                       final float positionOffset,
+                                       final int positionOffsetPixels) {
             }
 
             @Override
-            public void onPageSelected(int position) {
-                if(position == 1)
+            public void onPageSelected(final int position) {
+                if (position == 1) {
                     actionButton.setText(Html.fromHtml(getString(R.string.see_concerns)));
-                else
+                } else {
                     actionButton.setText(Html.fromHtml(getString(R.string.see_action)));
+                }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(final int state) {
 
             }
         });
 
         return rootView;
     }
-
-
 }
