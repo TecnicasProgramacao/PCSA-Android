@@ -29,7 +29,7 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
     private Context context;
 
     @Override
-    protected Bitmap doInBackground(String... params) {
+    protected Bitmap doInBackground(final String... params) {
         assert context != null : "context not set";
         assert outputView != null : "outputView not set";
 
@@ -44,7 +44,7 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
     }
 
     @Override
-    protected void onPostExecute(Bitmap bitmap) {
+    protected void onPostExecute(final Bitmap bitmap) {
         super.onPostExecute(bitmap);
         if (bitmap != null) {
             outputView.setImageBitmap(bitmap);
@@ -57,15 +57,17 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
      * @param phoneNumber
      * @return if matched, thumbnail ID, Else null
      */
-    private Integer fetchThumbnailId(String phoneNumber) {
+    private Integer fetchThumbnailId(final String phoneNumber) {
         ContentResolver contentResolver = context.getContentResolver();
 
-        final Uri uri = Uri.withAppendedPath(ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-        final Cursor cursor = contentResolver.query(uri, PHOTO_ID_PROJECTION, null, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+        final Uri baseUri = ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI;
+        final Uri uri = Uri.withAppendedPath(baseUri, Uri.encode(phoneNumber));
+        final String orderToSort = ContactsContract.Contacts.DISPLAY_NAME + " ASC";
+        final Cursor cursor = contentResolver.query(uri, PHOTO_ID_PROJECTION, null, null, orderToSort);
 
         try {
             Integer thumbnailId = null;
-            if (cursor!= null && cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 thumbnailId = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
             }
             return thumbnailId;
@@ -73,8 +75,9 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
             Log.e(TAG, "Unable to load thumbnail ID", e);
             return null;
         } finally {
-            if(cursor !=null)
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
     }
@@ -103,17 +106,18 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
             Log.e(TAG, "Unable to load thumbnail image", e);
             return null;
         } finally {
-            if(cursor != null)
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
     }
 
-    public void setOutputView(ImageView outputView) {
+    public final void setOutputView(final ImageView outputView) {
         this.outputView = outputView;
     }
 
-    public void setContext(Context context) {
+    public final void setContext(final Context context) {
         this.context = context;
     }
 }
