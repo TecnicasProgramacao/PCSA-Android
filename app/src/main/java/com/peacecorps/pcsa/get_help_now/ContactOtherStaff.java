@@ -23,17 +23,24 @@ import com.peacecorps.pcsa.R;
  */
 public class ContactOtherStaff extends Fragment {
 
-    public static final String TAG = ContactOtherStaff.class.getSimpleName() ;
+    public static final String TAG = ContactOtherStaff.class.getSimpleName();
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_reporting_contact_other_staff,container,false);
-        Button contactPcSaves = (Button) rootView.findViewById(R.id.pcsaves); //Button to access PC Saves Anonymous HelpLine
-        Button contactOva = (Button) rootView.findViewById(R.id.ova); //Button to access Office of Victim Advocacy
-        Button contactOig = (Button) rootView.findViewById(R.id.oig); //Button to access Office of Inspector General
-        Button contactOcrd = (Button) rootView.findViewById(R.id.ocrd); //Button to access Office of Civil Rights and diversity
+        View rootView = inflater.inflate(R.layout.fragment_reporting_contact_other_staff,
+                container, false);
+        //Button to access PC Saves Anonymous HelpLine
+        Button contactPcSaves = (Button) rootView.findViewById(R.id.pcsaves);
+        //Button to access Office of Victim Advocacy
+        Button contactOva = (Button) rootView.findViewById(R.id.ova);
+        //Button to access Office of Inspector General
+        Button contactOig = (Button) rootView.findViewById(R.id.oig);
+        //Button to access Office of Civil Rights and diversity
+        Button contactOcrd = (Button) rootView.findViewById(R.id.ocrd);
         ImageView contactPostStaff = (ImageView) rootView.findViewById(R.id.link_to_post_staff);
 
         contactPcSaves.setText(R.string.contact_pcsaves);
@@ -48,13 +55,14 @@ public class ContactOtherStaff extends Fragment {
 
         contactPostStaff.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Removing ContactOtherStaff from the fragment container dynamically
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack(ContactOtherStaff.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.popBackStack(ContactOtherStaff.TAG,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         });
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.reporting_get_help);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.reporting_get_help);
         return rootView;
     }
 
@@ -63,49 +71,74 @@ public class ContactOtherStaff extends Fragment {
      */
     private View.OnClickListener contactOnClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
             Fragment otherStaffContent;
             Bundle args;
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.pcsaves:
                     //Swapping OtherStaffContent into the fragment container dynamically
                     otherStaffContent = new OtherStaffContent();
+
                     args = new Bundle();
-                    args.putString(OtherStaffContent.CONTACT_NAME, getResources().getString(R.string.contact_pcsaves));
-                    args.putString(OtherStaffContent.CONTACT_DESC, getResources().getString(R.string.reporting_desc_pcsaves));
-                    args.putString(OtherStaffContent.CONTACT_NUMBER, getResources().getString(R.string.reporting_contact_pcsaves));
+                    args.putString(OtherStaffContent.CONTACT_NAME,
+                            getResources().getString(R.string.contact_pcsaves));
+                    args.putString(OtherStaffContent.CONTACT_DESC,
+                            getResources().getString(R.string.reporting_desc_pcsaves));
+                    args.putString(OtherStaffContent.CONTACT_NUMBER,
+                            getResources().getString(R.string.reporting_contact_pcsaves));
+
                     otherStaffContent.setArguments(args);
-                    MainActivity.swapFragmentIn(getActivity(),otherStaffContent,OtherStaffContent.TAG,true);
+
+                    MainActivity.swapFragmentIn(getActivity(), otherStaffContent,
+                            OtherStaffContent.TAG, true);
                     break;
                 case R.id.ova:
                     //Swapping OtherStaffContent into the fragment container dynamically
                     otherStaffContent = new OtherStaffContent();
+
                     args = new Bundle();
-                    args.putString(OtherStaffContent.CONTACT_NAME, getResources().getString(R.string.contact_ova));
-                    args.putString(OtherStaffContent.CONTACT_DESC, getResources().getString(R.string.reporting_desc_ova));
-                    args.putString(OtherStaffContent.CONTACT_NUMBER, getResources().getString(R.string.reporting_contact_ova));
+                    args.putString(OtherStaffContent.CONTACT_NAME,
+                            getResources().getString(R.string.contact_ova));
+                    args.putString(OtherStaffContent.CONTACT_DESC,
+                            getResources().getString(R.string.reporting_desc_ova));
+                    args.putString(OtherStaffContent.CONTACT_NUMBER,
+                            getResources().getString(R.string.reporting_contact_ova));
+
                     otherStaffContent.setArguments(args);
-                    MainActivity.swapFragmentIn(getActivity(),otherStaffContent,OtherStaffContent.TAG,true);
+
+                    MainActivity.swapFragmentIn(getActivity(), otherStaffContent,
+                            OtherStaffContent.TAG, true);
                     break;
                 case R.id.oig:
                     //Swapping OtherStaffContent into the fragment container dynamically
                     otherStaffContent = new OtherStaffContent();
+
                     args = new Bundle();
-                    args.putString(OtherStaffContent.CONTACT_NAME, getResources().getString(R.string.contact_oig));
-                    args.putString(OtherStaffContent.CONTACT_DESC, getResources().getString(R.string.reporting_desc_oig));
-                    args.putString(OtherStaffContent.CONTACT_NUMBER, getResources().getString(R.string.reporting_contact_oig));
+                    args.putString(OtherStaffContent.CONTACT_NAME,
+                            getResources().getString(R.string.contact_oig));
+                    args.putString(OtherStaffContent.CONTACT_DESC,
+                            getResources().getString(R.string.reporting_desc_oig));
+                    args.putString(OtherStaffContent.CONTACT_NUMBER,
+                            getResources().getString(R.string.reporting_contact_oig));
+
                     otherStaffContent.setArguments(args);
-                    MainActivity.swapFragmentIn(getActivity(),otherStaffContent,OtherStaffContent.TAG,true);
+
+                    MainActivity.swapFragmentIn(getActivity(), otherStaffContent,
+                            OtherStaffContent.TAG, true);
                     break;
                 case R.id.ocrd:
                     //Swapping OtherStaffContent into the fragment container dynamically
                     otherStaffContent = new OtherStaffContent();
                     args = new Bundle();
-                    args.putString(OtherStaffContent.CONTACT_NAME, getResources().getString(R.string.contact_ocrd));
-                    args.putString(OtherStaffContent.CONTACT_DESC, getResources().getString(R.string.reporting_desc_ocrd));
-                    args.putString(OtherStaffContent.CONTACT_NUMBER, getResources().getString(R.string.reporting_contact_ocrd));
+                    args.putString(OtherStaffContent.CONTACT_NAME,
+                            getResources().getString(R.string.contact_ocrd));
+                    args.putString(OtherStaffContent.CONTACT_DESC,
+                            getResources().getString(R.string.reporting_desc_ocrd));
+                    args.putString(OtherStaffContent.CONTACT_NUMBER,
+                            getResources().getString(R.string.reporting_contact_ocrd));
                     otherStaffContent.setArguments(args);
-                    MainActivity.swapFragmentIn(getActivity(),otherStaffContent,OtherStaffContent.TAG,true);
+                    MainActivity.swapFragmentIn(getActivity(), otherStaffContent,
+                            OtherStaffContent.TAG, true);
                     break;
             }
         }
