@@ -26,21 +26,24 @@ public class SignupActivity extends AppCompatActivity  implements AdapterView.On
     private EditText name;
     private Spinner country;
     private String selected_country;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SignupActivity.this);
         editor = sharedPreferences.edit();
 
-        if(!sharedPreferences.getString(getString(R.string.key_name),"").equals(""))
-        {
+        if(!sharedPreferences.getString(getString(R.string.key_name), "").equals("")) {
             startActivity(new Intent(SignupActivity.this,MainActivity.class));
             finish();
         }
@@ -54,18 +57,22 @@ public class SignupActivity extends AppCompatActivity  implements AdapterView.On
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, R.layout.textview, countries);
         adapter.setDropDownViewResource(R.layout.textview);
+
         country.setAdapter(adapter);
         country.setOnItemSelectedListener(this);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.getText().toString().equals(""))
+                if(name.getText().toString().equals("")) {
                     Toast.makeText(SignupActivity.this, R.string.prompt_please,Toast.LENGTH_SHORT).show();
+                }
                 else {
                     editor.putBoolean(getString(R.string.first_aide), false);
                     editor.putString(getString(R.string.key_country), selected_country);
                     editor.putString(getString(R.string.key_name), name.getText().toString());
                     editor.commit();
+
                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                     finish();
                 }
