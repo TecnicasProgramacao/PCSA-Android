@@ -24,7 +24,9 @@ public class SingleTextViewFragment extends Fragment {
     public static final String TOOLBAR_KEY = "TOOLBAR";
     public static final String CONTENT_KEY = "CONTENT";
     public static final String SUBTITLE_KEY = "SUBTITLE";
+
     TextView subTitle, content;
+
     String toolbarTitle, subtitle, contentString;
 
     @Nullable
@@ -32,15 +34,21 @@ public class SingleTextViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_single_textview, container, false);
+
         subTitle = (TextView)rootView.findViewById(R.id.layout_subtitle);
+
         content = (TextView)rootView.findViewById(R.id.layout_content);
+
         toolbarTitle = getArguments().getString(TOOLBAR_KEY);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(toolbarTitle);
+
         subtitle = getArguments().getString(SUBTITLE_KEY);
         subTitle.setText(subtitle);
+
         contentString = getArguments().getString(CONTENT_KEY);
         content.setText(Html.fromHtml(contentString));
         content.setMovementMethod(new ScrollingMovementMethod());
+
         return rootView;
     }
 
@@ -53,10 +61,12 @@ public class SingleTextViewFragment extends Fragment {
     public static void showSingleTextLayout(FragmentActivity mainActivity, String toolbarString, String subTitle, String contentToShow)
     {
         SingleTextViewFragment singleTextViewFragment = new SingleTextViewFragment();
+
         Bundle bundle = new Bundle();
         bundle.putString(SingleTextViewFragment.TOOLBAR_KEY,toolbarString);
         bundle.putString(SingleTextViewFragment.SUBTITLE_KEY,subTitle);
         bundle.putString(SingleTextViewFragment.CONTENT_KEY,contentToShow);
+
         singleTextViewFragment.setArguments(bundle);
 
         //Swapping Single Textview Fragment into the fragment container
