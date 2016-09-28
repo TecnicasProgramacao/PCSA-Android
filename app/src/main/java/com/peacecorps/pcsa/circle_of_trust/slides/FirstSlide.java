@@ -8,18 +8,25 @@ import android.view.ViewGroup;
 
 import com.peacecorps.pcsa.R;
 
-/*
- * First Slide of circle of trust introduction
- *
- * @author calistus
- * @since 2015-08-18
+/**
+ * File: FirstSlide.java
+ * Purpose: First Slide of circle of trust introduction.
  */
 public class FirstSlide extends Fragment {
+
+    /**
+     *
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     * @param savedInstanceState - If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here
+     * @return View - View of the fragment
+     */
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro, container, false);
-        return v;
+        View view = inflater.inflate(R.layout.intro, container, false);
+        return view;
     }
 }
