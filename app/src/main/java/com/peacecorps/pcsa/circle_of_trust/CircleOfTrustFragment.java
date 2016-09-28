@@ -1,3 +1,8 @@
+/**
+ * File: CircleOfTrustFragment.java
+ * Purpose: Fragment responsible for Circle of Trust view
+ */
+
 package com.peacecorps.pcsa.circle_of_trust;
 
 import android.app.Activity;
@@ -33,22 +38,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-/*
- * Circle of Trust main fragment
- *
- * @author calistus
- * @since 2015-08-18
- */
 public class CircleOfTrustFragment extends Fragment {
     public static final String TAG = CircleOfTrustFragment.class.getSimpleName();
-    private static final String MY_PREFERENCES = "MyPreference";
     private static final String NAME_KEY = "ComradeName";
-    private static int REQUEST_CODE_TRUSTEES = 1001;
+    //Code of message is not sent
+    private static final int REQUEST_CODE_TRUSTEES = 1001;
+    private static final int INT_ZERO = 0;
+
     // Length of vibration in milliseconds
-    private long VIBRATION_TIME = 300;
-    private long VIBRATION_PAUSE = 200;
-    //TODO : Add info about vibration pattern in intro activity
+    private static final long VIBRATION_TIME = 300;
+    private static final long VIBRATION_PAUSE = 200;
+
+    // Add info about vibration pattern in intro activity
     private long[] patternSuccess = {
             // Start immediately
             0,
@@ -62,50 +63,54 @@ public class CircleOfTrustFragment extends Fragment {
             VIBRATION_TIME, VIBRATION_PAUSE, VIBRATION_TIME,
     };
 
-    private ImageView[] comradesViews;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private ImageView[] comradesViews = null;
+    private SharedPreferences sharedPreferences = null;
+    private SharedPreferences.Editor editor = null;
 
     private String[] phoneNumbers;
-    private LocationHelper locationHelper;
+    private LocationHelper locationHelper = null;
+    private Vibrator vibrator = null;
 
-    private Vibrator vibrator;
-
-    public final static String SENT = "300";
     private static boolean firstTime = false;
-    private static int msgParts;
+    private static int messageWasSent = INT_ZERO;
     private static List<Boolean> sent = new ArrayList<>();
     private ArrayList<PendingIntent> sentIntents = new ArrayList<>();
     private String numbers[];
-    public static BroadcastReceiver sentReceiver;
-    static Map allNames = new HashMap();
-    private TextView comrade1Name, comrade2Name, comrade3Name, comrade4Name, comrade5Name, comrade6Name;
+    private static BroadcastReceiver sentReceiver;
+    private static Map allNames = new HashMap();
+    private TextView firstComradeName, secondComradeName, thirdComradeName,
+            fourthComradeName, fifthComradeName, sixthComradeName;
     private TextView[] allTextViews;
 
     public CircleOfTrustFragment() {
+        //Empty constructor is required
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
+        final String MY_PREFERENCES = "MyPreference";
+
         View rootView = inflater.inflate(R.layout.fragment_circle_of_trust, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.circle_title);
 
         sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        comrade1Name = (TextView) rootView.findViewById(R.id.com1ButtonName);
-        comrade2Name = (TextView) rootView.findViewById(R.id.com2ButtonName);
-        comrade3Name = (TextView) rootView.findViewById(R.id.com3ButtonName);
-        comrade4Name = (TextView) rootView.findViewById(R.id.com4ButtonName);
-        comrade5Name = (TextView) rootView.findViewById(R.id.com5ButtonName);
-        comrade6Name = (TextView) rootView.findViewById(R.id.com6ButtonName);
+
+        firstComradeName= (TextView) rootView.findViewById(R.id.com1ButtonName);
+        secondComradeName= (TextView) rootView.findViewById(R.id.com2ButtonName);
+        thirdComradeName= (TextView) rootView.findViewById(R.id.com3ButtonName);
+        fourthComradeName= (TextView) rootView.findViewById(R.id.com4ButtonName);
+        fifthComradeName= (TextView) rootView.findViewById(R.id.com5ButtonName);
+        sixthComradeName= (TextView) rootView.findViewById(R.id.com6ButtonName);
+
         allTextViews = new TextView[]{
-                comrade1Name,
-                comrade2Name,
-                comrade3Name,
-                comrade4Name,
-                comrade5Name,
-                comrade6Name};
+                firstComradeName,
+                secondComradeName,
+                thirdComradeName,
+                fourthComradeName,
+                fifthComradeName,
+                sixthComradeName};
 
         for (int i = 0; i < allTextViews.length; ++i) {
             allTextViews[i].setText(sharedPreferences.getString(NAME_KEY + i,
@@ -125,17 +130,22 @@ public class CircleOfTrustFragment extends Fragment {
                     case Activity.RESULT_OK:
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        //Nothing to do
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        //Nothing to do
                     case SmsManager.RESULT_ERROR_NULL_PDU:
+                        //Nothing to do
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
                         anyError = true;
                         break;
                     default:
                         //Nothing to do
                 }
+
                 sent.add(anyError);
-                msgParts--;
-                if (msgParts == 0) {
+                messageWasSent--;
+
+                if (messageWasSent == 0) {
                     String logMessage = "";
                     for (int i = 0; i < sent.size(); ++i) {
                         if (!numbers[i].isEmpty()) {
@@ -147,6 +157,7 @@ public class CircleOfTrustFragment extends Fragment {
                             logMessage += "\n";
                         }
                     }
+
                     CustomAlertDialogFragment customAlertDialogFragment =
                             CustomAlertDialogFragment.newInstance(getString(R.string.log_title),
                                     logMessage);
@@ -161,6 +172,7 @@ public class CircleOfTrustFragment extends Fragment {
 
         ImageButton requestButton = (ImageButton) rootView.findViewById(R.id.requestButton);
         ImageButton editButton = (ImageButton) rootView.findViewById(R.id.editButton);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -168,6 +180,7 @@ public class CircleOfTrustFragment extends Fragment {
                         REQUEST_CODE_TRUSTEES);
             }
         });
+
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -176,10 +189,12 @@ public class CircleOfTrustFragment extends Fragment {
                         // Only perform success pattern one time (-1 means "do not repeat")
                         vibrator.vibrate(patternSuccess, -1);
                     }
+
                     MessageDialogBox messageDialogBox =
                             MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
                     messageDialogBox.show(getActivity().getSupportFragmentManager(),
                             getString(R.string.message_options));
+
                 } else {
                     if (vibrator.hasVibrator()) {
                         // Only perform failure pattern one time (-1 means "do not repeat")
@@ -189,14 +204,17 @@ public class CircleOfTrustFragment extends Fragment {
                 }
             }
         });
+
         comradesViews = new ImageView[]{(ImageView) rootView.findViewById(R.id.com1Button),
                 (ImageView) rootView.findViewById(R.id.com2Button),
                 (ImageView) rootView.findViewById(R.id.com3Button),
                 (ImageView) rootView.findViewById(R.id.com4Button),
                 (ImageView) rootView.findViewById(R.id.com5Button),
                 (ImageView) rootView.findViewById(R.id.com6Button)};
+
         loadContactPhotos();
         locationHelper = new LocationHelper(getActivity());
+
         return rootView;
     }
 
@@ -262,11 +280,15 @@ public class CircleOfTrustFragment extends Fragment {
      * @param optionSelected selected option
      */
     public void sendMessage(final String optionSelected) {
+        final String SENT = "300";
+
         SmsManager sms = SmsManager.getDefault();
         String message = "";
+
         switch (optionSelected) {
             case SmsConstants.COME_GET_ME:
                 Location location = locationHelper.retrieveLocation(false);
+
                 if (location == null) {
                     message = getString(R.string.come_get_me_message);
                 } else {
@@ -313,7 +335,7 @@ public class CircleOfTrustFragment extends Fragment {
                 numRegisteredComrades++;
             }
         }
-        msgParts = numParts * numRegisteredComrades;
+        messageWasSent= numParts * numRegisteredComrades;
         firstTime = true;
         for (String number : numbers) {
             if (!number.isEmpty()) {
@@ -378,9 +400,11 @@ public class CircleOfTrustFragment extends Fragment {
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_CODE_TRUSTEES) {
             refreshPhotos();
             Iterator it = allNames.entrySet().iterator();
+
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
                 allTextViews[(Integer) pair.getKey() - 1].setText(pair.getValue().toString());
