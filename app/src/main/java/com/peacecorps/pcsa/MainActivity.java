@@ -178,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected final void onResume() {
         super.onResume();
-        registerReceiver(CircleOfTrustFragment.sentReceiver, new IntentFilter(CircleOfTrustFragment.SENT));
+        registerReceiver(CircleOfTrustFragment.sentReceiver,
+                new IntentFilter(CircleOfTrustFragment.SENT));
     }
 
     @Override

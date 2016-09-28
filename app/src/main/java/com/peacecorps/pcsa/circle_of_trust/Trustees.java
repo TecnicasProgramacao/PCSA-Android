@@ -113,9 +113,9 @@ public class Trustees extends AppCompatActivity {
                         for(int i = 0; i < NUMBER_OF_COMRADES; i++)
                             if(!old_comrade.get(i).equals(new_comrade.get(i))){
                                 needToUpdate = true;
-                                if(CircleOfTrustFragment.allNames.containsKey(i+1) && !indexesUpdated.contains(i))
+                                if(CircleOfTrustFragment.allNamesOfCircleOfTrust.containsKey(i+1) && !indexesUpdated.contains(i))
                                 {
-                                    CircleOfTrustFragment.allNames.remove(i+1);
+                                    CircleOfTrustFragment.allNamesOfCircleOfTrust.remove(i+1);
                                 }
 
                             }
@@ -214,7 +214,7 @@ public class Trustees extends AppCompatActivity {
                 phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA);
                 if (cursor.moveToFirst()) {
                     contactDisplayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                    CircleOfTrustFragment.allNames.put(tag,contactDisplayName);
+                    CircleOfTrustFragment.allNamesOfCircleOfTrust.put(tag,contactDisplayName);
                     indexesUpdated.add(tag-1);
                     while (!cursor.isAfterLast()) {
                         phoneNumber = cursor.getString(phoneIdx);
