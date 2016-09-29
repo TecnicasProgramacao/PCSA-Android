@@ -255,7 +255,7 @@ public class CircleOfTrustFragment extends Fragment {
      * @param container - If non-null, is the parent view that the fragment should be attached to
      */
     private void settingTextView(final LayoutInflater inflater,
-                                 final ViewGroup container){
+                                 final ViewGroup container) {
         assert rootView != null;
         assert inflater != null;
         assert container != null;
@@ -426,7 +426,7 @@ public class CircleOfTrustFragment extends Fragment {
                 //Nothing to do
             }
         }
-        messageWasSent= numParts * numRegisteredComrades;
+        messageWasSent = numParts * numRegisteredComrades;
         firstTime = true;
         for (String number : numbers) {
             if (!number.isEmpty()) {
@@ -492,7 +492,6 @@ public class CircleOfTrustFragment extends Fragment {
 
     /**
      * Receive the result from a previous call to
-     * {@link #startActivityForResult(Intent, int)}.
      * @param requestCode - The integer request code originally supplied to
      *                    startActivityForResult(), allowing you to identify who this
      *                    result came from.
