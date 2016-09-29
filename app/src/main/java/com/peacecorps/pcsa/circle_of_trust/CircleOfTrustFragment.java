@@ -80,11 +80,15 @@ public class CircleOfTrustFragment extends Fragment {
     private String numbers[];
     public static BroadcastReceiver sentReceiver;
     public static Map allNamesOfCircleOfTrust = new HashMap();
+
     private TextView firstComradeName, secondComradeName, thirdComradeName,
             fourthComradeName, fifthComradeName, sixthComradeName;
     private TextView[] allTextViews;
 
     private View rootView = null;
+
+    private ImageButton requestButton = null;
+    private ImageButton editButton = null;
 
     public CircleOfTrustFragment() {
         //Empty constructor is required
@@ -98,6 +102,78 @@ public class CircleOfTrustFragment extends Fragment {
 
         settingTextView(inflater, container);
 
+        verifySmsIsSend();
+
+        // Get instance of Vibrator from current Context
+        vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
+        settingImageButtons();
+
+        setOnClicksListeners();
+
+        setComradesViews();
+
+        loadContactPhotos();
+        locationHelper = new LocationHelper(getActivity());
+
+        return rootView;
+    }
+
+    /**
+     * Set comrades views of the CircleOfTrustFragment view
+     */
+
+    private void setComradesViews() {
+        comradesViews = new ImageView[]{(ImageView) rootView.findViewById(R.id.com1Button),
+                (ImageView) rootView.findViewById(R.id.com2Button),
+                (ImageView) rootView.findViewById(R.id.com3Button),
+                (ImageView) rootView.findViewById(R.id.com4Button),
+                (ImageView) rootView.findViewById(R.id.com5Button),
+                (ImageView) rootView.findViewById(R.id.com6Button)};
+    }
+
+    /**
+     * Sets on clicks of buttons of the CircleOfTrustFragment view
+     */
+    private void setOnClicksListeners() {
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startActivityForResult(new Intent(getActivity(), Trustees.class),
+                        REQUEST_CODE_TRUSTEES);
+            }
+        });
+
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (checkMobileNetworkAvailable(getActivity())) {
+                    if (vibrator.hasVibrator()) {
+                        // Only perform success pattern one time (-1 means "do not repeat")
+                        vibrator.vibrate(patternSuccess, -1);
+                    }
+
+                    MessageDialogBox messageDialogBox =
+                            MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
+                    messageDialogBox.show(getActivity().getSupportFragmentManager(),
+                            getString(R.string.message_options));
+
+                } else {
+                    if (vibrator.hasVibrator()) {
+                        // Only perform failure pattern one time (-1 means "do not repeat")
+                        vibrator.vibrate(patternFailure, -1);
+                    }
+                    Toast.makeText(getActivity(), R.string.network_unavailable,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Verify if SMS is sent
+     */
+    private void verifySmsIsSend() {
         //To verify if SMS is sent
         sentReceiver = new BroadcastReceiver() {
             @Override
@@ -148,55 +224,15 @@ public class CircleOfTrustFragment extends Fragment {
                 }
             }
         };
-        // Get instance of Vibrator from current Context
-        vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+    }
 
-        ImageButton requestButton = (ImageButton) rootView.findViewById(R.id.requestButton);
-        ImageButton editButton = (ImageButton) rootView.findViewById(R.id.editButton);
+    /**
+     * Sets the ImageButtons of the CircleOfTrustFragment view
+     */
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                startActivityForResult(new Intent(getActivity(), Trustees.class),
-                        REQUEST_CODE_TRUSTEES);
-            }
-        });
-
-        requestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (checkMobileNetworkAvailable(getActivity())) {
-                    if (vibrator.hasVibrator()) {
-                        // Only perform success pattern one time (-1 means "do not repeat")
-                        vibrator.vibrate(patternSuccess, -1);
-                    }
-
-                    MessageDialogBox messageDialogBox =
-                            MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
-                    messageDialogBox.show(getActivity().getSupportFragmentManager(),
-                            getString(R.string.message_options));
-
-                } else {
-                    if (vibrator.hasVibrator()) {
-                        // Only perform failure pattern one time (-1 means "do not repeat")
-                        vibrator.vibrate(patternFailure, -1);
-                    }
-                    Toast.makeText(getActivity(), R.string.network_unavailable, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        comradesViews = new ImageView[]{(ImageView) rootView.findViewById(R.id.com1Button),
-                (ImageView) rootView.findViewById(R.id.com2Button),
-                (ImageView) rootView.findViewById(R.id.com3Button),
-                (ImageView) rootView.findViewById(R.id.com4Button),
-                (ImageView) rootView.findViewById(R.id.com5Button),
-                (ImageView) rootView.findViewById(R.id.com6Button)};
-
-        loadContactPhotos();
-        locationHelper = new LocationHelper(getActivity());
-
-        return rootView;
+    private void settingImageButtons() {
+        requestButton = (ImageButton) rootView.findViewById(R.id.requestButton);
+        editButton = (ImageButton) rootView.findViewById(R.id.editButton);
     }
 
     /**
@@ -210,16 +246,17 @@ public class CircleOfTrustFragment extends Fragment {
         assert inflater != null;
         assert container != null;
 
-        firstComradeName= (TextView) rootView.findViewById(R.id.com1ButtonName);
-        secondComradeName= (TextView) rootView.findViewById(R.id.com2ButtonName);
-        thirdComradeName= (TextView) rootView.findViewById(R.id.com3ButtonName);
-        fourthComradeName= (TextView) rootView.findViewById(R.id.com4ButtonName);
-        fifthComradeName= (TextView) rootView.findViewById(R.id.com5ButtonName);
-        sixthComradeName= (TextView) rootView.findViewById(R.id.com6ButtonName);
+        firstComradeName = (TextView) rootView.findViewById(R.id.com1ButtonName);
+        secondComradeName = (TextView) rootView.findViewById(R.id.com2ButtonName);
+        thirdComradeName = (TextView) rootView.findViewById(R.id.com3ButtonName);
+        fourthComradeName = (TextView) rootView.findViewById(R.id.com4ButtonName);
+        fifthComradeName = (TextView) rootView.findViewById(R.id.com5ButtonName);
+        sixthComradeName = (TextView) rootView.findViewById(R.id.com6ButtonName);
 
         final String MY_PREFERENCES = "MyPreference";
 
-        sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES,
+                Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         allTextViews = new TextView[]{
@@ -239,23 +276,39 @@ public class CircleOfTrustFragment extends Fragment {
 
     /**
      * Checks whether the device is connected to a mobile network or not
-     * @param appcontext
-     * @return true if the device is connected
+     * @param appContext - Context of the fragment
+     * @return boolean - Return true if the device is connected
      */
-    public static boolean checkMobileNetworkAvailable(final Context appcontext) {
-        TelephonyManager tel = (TelephonyManager) appcontext.getSystemService(Context.TELEPHONY_SERVICE);
-        if (tel.getNetworkOperator() != null && tel.getNetworkOperator().equals("")) {
-            return false;
+    public static boolean checkMobileNetworkAvailable(final Context appContext) {
+
+        assert appContext != null;
+
+        TelephonyManager telephonyManager =
+                (TelephonyManager) appContext.getSystemService(Context.TELEPHONY_SERVICE);
+        boolean deviceIsConnected = false;
+        if (telephonyManager.getNetworkOperator() != null
+                && telephonyManager.getNetworkOperator().equals("")) {
+            deviceIsConnected = false;
         } else {
-            return true;
+            deviceIsConnected = true;
         }
+
+        return deviceIsConnected;
     }
+
+    /**
+     * Resume at this fragment
+     */
 
     @Override
     public void onResume() {
         super.onResume();
         locationHelper.startAcquiringLocation();
     }
+
+    /**
+     * Pause the current fragment
+     */
 
     @Override
     public void onPause() {
@@ -296,11 +349,9 @@ public class CircleOfTrustFragment extends Fragment {
 
     /**
      * Sends a message to the comrades' phone numbers
-     * @param optionSelected selected option
+     * @param optionSelected - Selected option
      */
     public void sendMessage(final String optionSelected) {
-        final String SENT = "300";
-
         SmsManager sms = SmsManager.getDefault();
         String message = "";
 
@@ -427,7 +478,8 @@ public class CircleOfTrustFragment extends Fragment {
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
                 allTextViews[(Integer) pair.getKey() - 1].setText(pair.getValue().toString());
-                editor.putString(NAME_KEY + ((Integer) pair.getKey() - 1), pair.getValue().toString());
+                editor.putString(NAME_KEY + ((Integer) pair.getKey() - 1),
+                        pair.getValue().toString());
             }
 
             for (int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
