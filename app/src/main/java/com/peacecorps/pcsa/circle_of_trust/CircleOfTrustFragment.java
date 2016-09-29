@@ -94,9 +94,23 @@ public class CircleOfTrustFragment extends Fragment {
         //Empty constructor is required
     }
 
+    /**
+     * Creates and returns the view hierarchy associated with the fragment.
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     * @param savedInstanceState - If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here
+     * @return View - View of the fragment
+     */
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
+
+        assert inflater != null;
+        assert container != null;
+        assert savedInstanceState != null;
+
         rootView = inflater.inflate(R.layout.fragment_circle_of_trust, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.circle_title);
 
@@ -352,6 +366,8 @@ public class CircleOfTrustFragment extends Fragment {
      * @param optionSelected - Selected option
      */
     public void sendMessage(final String optionSelected) {
+        assert optionSelected != null;
+
         SmsManager sms = SmsManager.getDefault();
         String message = "";
 
@@ -386,7 +402,10 @@ public class CircleOfTrustFragment extends Fragment {
 
         if (phoneNumbers == null) {
             loadPhoneNumbers();
+        } else {
+            //Nothing to do
         }
+
         // The numbers variable holds the Comrades numbers
         numbers = phoneNumbers;
 
@@ -403,6 +422,8 @@ public class CircleOfTrustFragment extends Fragment {
         for (String number : numbers) {
             if (!number.isEmpty()) {
                 numRegisteredComrades++;
+            } else {
+                //Nothing to do
             }
         }
         messageWasSent= numParts * numRegisteredComrades;
@@ -417,6 +438,8 @@ public class CircleOfTrustFragment extends Fragment {
                             Toast.LENGTH_LONG).show();
                 }
                 counter++;
+            } else {
+                //Nothing to do
             }
         }
         if (counter != 0) {
@@ -469,6 +492,9 @@ public class CircleOfTrustFragment extends Fragment {
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+        assert data != null;
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_TRUSTEES) {
