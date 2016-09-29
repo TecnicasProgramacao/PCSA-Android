@@ -311,7 +311,7 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     /**
-     * Resume at this fragment
+     * Called when the fragment is visible to the user and actively running.
      */
 
     @Override
@@ -321,7 +321,7 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     /**
-     * Pause the current fragment
+     * Called when the Fragment is no longer resumed.
      */
 
     @Override
@@ -338,7 +338,7 @@ public class CircleOfTrustFragment extends Fragment {
         if (phoneNumbers == null) {
             loadPhoneNumbers();
         }
-        //reset to defaults
+        //reset comrades to defaults
         for (ImageView view:comradesViews) {
             view.setImageResource(R.drawable.ic_comrade);
         }
