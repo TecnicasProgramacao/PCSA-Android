@@ -1,3 +1,8 @@
+/**
+ * File: MainActivityFragment.java
+ * Purpose: A placeholder fragment containing a simple view.
+ */
+
 package com.peacecorps.pcsa;
 
 import android.content.Intent;
@@ -17,31 +22,55 @@ import com.peacecorps.pcsa.safety_tools.SafetyToolsFragment;
 import com.peacecorps.pcsa.sexual_assault_awareness.MainFragment;
 import com.peacecorps.pcsa.support_services.SupportServicesFragment;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MainActivityFragment extends Fragment {
 
-    public final static String TAG = "MainActivityFragment";
+    public static final String TAG = "MainActivityFragment";
     private boolean introFinished = false;
+    private View rootView = null;
+
+    private Button circleButton = null;
+    private Button getHelpNowButton = null;
+    private Button safetyToolsButton = null;
+    private Button supportServicesButton = null;
+    private Button assaultAwarenessButton = null;
+    private Button policiesButton = null;
 
     public MainActivityFragment() {
+        //Empty constructor is required
     }
 
+    /**
+     * Creates and returns the view hierarchy associated with the fragment.
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     * @param savedInstanceState - If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here
+     * @return View - View of the fragment
+     */
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        Button circleButton = (Button) rootView.findViewById(R.id.circleButton);
-        Button getHelpNowButton = (Button) rootView.findViewById(R.id.getButton);
-        Button safetyToolsButton = (Button) rootView.findViewById(R.id.safetyToolsButton);
-        Button supportServicesButton = (Button) rootView.findViewById(R.id.supportServicesButton);
-        Button assaultAwarenessButton = (Button) rootView.findViewById(R.id.assaultAwarenessButton);
-        Button policiesButton = (Button) rootView.findViewById(R.id.policiesButton);
+        assert inflater != null;
+        assert container != null;
+        assert savedInstanceState != null;
+
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        settingButtons();
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.first_aide);
 
+        settingOnClickListeners();
+
+        return rootView;
+    }
+
+    /**
+     * Setting on click listeners of buttons of the MainActivityFragment class
+     */
+
+    private void settingOnClickListeners() {
         safetyToolsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -117,12 +146,35 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
-        return rootView;
     }
 
+
+    /**
+     * Setting buttons of the MainActivityFragment class
+     */
+    private void settingButtons() {
+        circleButton = (Button) rootView.findViewById(R.id.circleButton);
+        getHelpNowButton = (Button) rootView.findViewById(R.id.getButton);
+        safetyToolsButton = (Button) rootView.findViewById(R.id.safetyToolsButton);
+        supportServicesButton = (Button) rootView.findViewById(R.id.supportServicesButton);
+        assaultAwarenessButton = (Button) rootView.findViewById(R.id.assaultAwarenessButton);
+        policiesButton = (Button) rootView.findViewById(R.id.policiesButton);
+    }
+
+    /**
+     * Receive the result from a previous call to
+     * @param requestCode - The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode - The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data - An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        
         switch (requestCode) {
             case 2:
                 introFinished = true;
