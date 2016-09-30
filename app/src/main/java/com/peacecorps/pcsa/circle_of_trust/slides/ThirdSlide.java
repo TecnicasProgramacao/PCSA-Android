@@ -8,16 +8,11 @@ import android.view.ViewGroup;
 
 import com.peacecorps.pcsa.R;
 
-/*
- * Third Slide of circle of trust introduction
- *
- * @author calistus
- * @since 2015-08-18
- */
+// Third Slide of circle of trust introduction
 public class ThirdSlide extends Fragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro3, container, false);
-        return v;
+    public final View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.intro3, container, false);
+        return view;
     }
 }

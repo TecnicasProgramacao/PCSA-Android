@@ -7,18 +7,13 @@ import android.widget.ListAdapter;
 
 import com.peacecorps.pcsa.get_help_now.ListDialogBox;
 
-/*
- * Dialog for showing multiple contact selection dialog
- *
- * @author chamika
- * @since 2016-04-13
- */
+// Dialog for showing multiple contact selection dialog
 public class ContactListDialog extends ListDialogBox {
 
     private Object[] elements;
     private AdapterView.OnItemClickListener listener;
 
-    public static ContactListDialog newInstance(Context context, String title, Object[] elements) {
+    public final ContactListDialog newInstance(final Context context, final String title, final Object[] elements) {
         Bundle args = new Bundle();
         args.putString("title", title);
         ContactListDialog fragment = new ContactListDialog();
@@ -29,16 +24,16 @@ public class ContactListDialog extends ListDialogBox {
     }
 
     @Override
-    protected ListAdapter getListAdapter() {
+    protected final ListAdapter getListAdapter() {
         return new ContactListAdapter(context, elements);
     }
 
     @Override
-    protected AdapterView.OnItemClickListener getItemClickListener() {
+    protected final AdapterView.OnItemClickListener getItemClickListener() {
         return listener;
     }
 
-    public void setListener(AdapterView.OnItemClickListener listener) {
+    public final void setListener(final AdapterView.OnItemClickListener listener) {
         this.listener = listener;
     }
 }
