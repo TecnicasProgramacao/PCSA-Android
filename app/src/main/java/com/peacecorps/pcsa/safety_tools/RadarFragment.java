@@ -1,7 +1,6 @@
 package com.peacecorps.pcsa.safety_tools;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,16 +26,13 @@ public class RadarFragment extends Fragment {
     public static final int NUM_PAGES = 5;
     public static final String TAG = RadarFragment.class.getSimpleName();
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     private ImageView nextStep, prevStep;
     private TextView stepIndicator;
     private int[] stepsContent = new int[]{R.string.radar_step1, R.string.radar_step2,
             R.string.radar_step3, R.string.radar_step4, R.string.radar_step5};
     private enum pages {
         FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE;
-    }
-
-    ;
+    };
 
     @Override
     public final View onCreateView(final LayoutInflater inflater,
@@ -44,9 +40,10 @@ public class RadarFragment extends Fragment {
                              final Bundle savedInstanceState) {
 
         View rootView =  inflater.inflate(R.layout.fragment_radar, container, false);
+        PagerAdapter mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
+                stepsContent, NUM_PAGES);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(), stepsContent, NUM_PAGES);
         mPager.setAdapter(mPagerAdapter);
 
         nextStep = (ImageView) rootView.findViewById(R.id.next_step);
@@ -73,7 +70,6 @@ public class RadarFragment extends Fragment {
                 if (nextStep.getVisibility() == View.INVISIBLE) {
                     nextStep.setVisibility(View.VISIBLE);
                 }
-
             }
         });
 
@@ -91,9 +87,6 @@ public class RadarFragment extends Fragment {
                 if (prevStep.getVisibility() == View.INVISIBLE) {
                     prevStep.setVisibility(View.VISIBLE);
                 }
-
-
-
             }
         });
 
