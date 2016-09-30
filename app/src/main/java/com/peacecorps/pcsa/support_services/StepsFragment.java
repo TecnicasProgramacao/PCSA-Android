@@ -1,3 +1,8 @@
+/**
+ * File: StepsFragment
+ * Purpose: Steps in Reporting view fragment
+ */
+
 package com.peacecorps.pcsa.support_services;
 
 import android.os.Bundle;
@@ -12,24 +17,39 @@ import android.widget.TextView;
 
 import com.peacecorps.pcsa.R;
 
-/**
- * Steps in Reporting
- *
- * @author Buddhiprabha Erabadda
- * @since 07-08-2015
- */
 public class StepsFragment extends Fragment {
 
-    public final static String TAG = StepsFragment.class.getSimpleName();
+    public static final String TAG = StepsFragment.class.getSimpleName();
+    private View rootView = null;
+    /**
+     * Creates and returns the view hierarchy associated with the fragment.
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     * @param savedInstanceState - If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here
+     * @return View - View of the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final @Nullable ViewGroup container,
                              final @Nullable Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_reporting_steps,
+        assert inflater != null;
+
+        rootView =  inflater.inflate(R.layout.fragment_reporting_steps,
                 container,
                 false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.after_assault);
+
+        setingTextView();
+
+        return rootView;
+    }
+
+    /**
+     * Seting text view of the steps fragment view
+     */
+    private void setingTextView() {
         TextView reportingStep1 = (TextView) rootView.findViewById(R.id.reporting_step1);
         TextView reportingStep2 = (TextView) rootView.findViewById(R.id.reporting_step2);
         TextView reportingStep3 = (TextView) rootView.findViewById(R.id.reporting_step3);
@@ -43,6 +63,5 @@ public class StepsFragment extends Fragment {
         reportingStep4.setText(Html.fromHtml(getResources().getString(R.string.reporting_step4)));
         reportingStep5.setText(Html.fromHtml(getResources().getString(R.string.reporting_step5)));
         reportingStep6.setText(Html.fromHtml(getResources().getString(R.string.reporting_step6)));
-        return rootView;
     }
 }
