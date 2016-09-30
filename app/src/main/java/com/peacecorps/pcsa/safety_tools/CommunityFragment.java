@@ -28,7 +28,7 @@ public class CommunityFragment extends Fragment {
     };
     private Button actionButton = null;
     private static View rootView = null;
-    
+
     /**
      * Creates and returns the view hierarchy associated with the fragment.
      * @param inflater - Object used to inflate any views in the fragment
