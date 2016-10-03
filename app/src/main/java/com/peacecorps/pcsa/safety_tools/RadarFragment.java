@@ -25,9 +25,11 @@ import com.peacecorps.pcsa.R;
 public class RadarFragment extends Fragment {
 
     public static final String TAG = RadarFragment.class.getSimpleName();
-    private ViewPager mPager;
-    private ImageView nextStep, prevStep;
-    private TextView stepIndicator;
+
+    private ViewPager mPager = null;
+    private ImageView nextStep = null;
+    private ImageView prevStep = null;
+    private TextView stepIndicator = null;
 
     private int[] stepsContent = new int[]{R.string.radar_step1, R.string.radar_step2,
             R.string.radar_step3, R.string.radar_step4, R.string.radar_step5};
