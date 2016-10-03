@@ -13,7 +13,7 @@ public class ContactListDialog extends ListDialogBox {
     private Object[] elements;
     private AdapterView.OnItemClickListener listener;
 
-    public final ContactListDialog newInstance(final Context context, final String title, final Object[] elements) {
+    public static ContactListDialog newInstance(final Context context, final String title, final Object[] elements) {
         Bundle args = new Bundle();
         args.putString("title", title);
         ContactListDialog fragment = new ContactListDialog();

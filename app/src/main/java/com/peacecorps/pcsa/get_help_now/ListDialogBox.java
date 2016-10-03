@@ -22,9 +22,9 @@ import com.peacecorps.pcsa.R;
 
 public abstract class ListDialogBox extends DialogFragment {
 
-    private Context context;
+    protected Context context;
     private Dialog listDialog;
-    private AdapterView.OnItemClickListener clickListener;
+    protected AdapterView.OnItemClickListener clickListener;
 
     @Override
     public final Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -62,5 +62,6 @@ public abstract class ListDialogBox extends DialogFragment {
     protected abstract ListAdapter getListAdapter();
 
     protected abstract AdapterView.OnItemClickListener getItemClickListener();
+
 }
 

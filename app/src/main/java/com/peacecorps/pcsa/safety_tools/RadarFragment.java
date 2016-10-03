@@ -1,3 +1,11 @@
+/*
+ * File: RadarFragment.java
+ * Package: safety_tools
+ *
+ * Purpose: Shows the guidelines and steps to manage risks and danger
+ */
+
+
 package com.peacecorps.pcsa.safety_tools;
 
 import android.os.Bundle;
@@ -15,12 +23,6 @@ import android.widget.TextView;
 
 import com.peacecorps.pcsa.R;
 
-/*
- * Radar Fragment, Safety Tools
- *
- * @author rohan
- * @since 2016-07-08
- */
 public class RadarFragment extends Fragment {
 
     public static final int NUM_PAGES = 5;
