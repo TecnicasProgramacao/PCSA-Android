@@ -33,8 +33,11 @@ public class RadarFragment extends Fragment {
     private int[] stepsContent = new int[]{R.string.radar_step1, R.string.radar_step2,
             R.string.radar_step3, R.string.radar_step4, R.string.radar_step5};
     private enum pages {
-        FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE;
-    };
+        FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE
+    }
+    private final int[] steps = new int[]{R.string.step_1, R.string.step_2,
+            R.string.step_3, R.string.step_4, R.string.step_5};
+
 
     @Override
     public final View onCreateView(final LayoutInflater inflater,
@@ -42,22 +45,23 @@ public class RadarFragment extends Fragment {
                              final Bundle savedInstanceState) {
 
         View rootView =  inflater.inflate(R.layout.fragment_radar, container, false);
-        PagerAdapter mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
-                stepsContent, NUM_PAGES);
 
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mPager.setAdapter(mPagerAdapter);
+        setViewContents(rootView);
+        initializeContents();
 
-        nextStep = (ImageView) rootView.findViewById(R.id.next_step);
-        prevStep = (ImageView) rootView.findViewById(R.id.prev_step);
+        clickListenerPrevStep();
+        clickListenerNextStep();
 
-        final int[] steps = new int[]{R.string.step_1, R.string.step_2,
-                R.string.step_3, R.string.step_4, R.string.step_5};
+        pageChangeListener();
 
-        stepIndicator = (TextView) rootView.findViewById(R.id.steps_text);
-        stepIndicator.setText(Html.fromHtml(getString(steps[0])));
-        prevStep.setVisibility(View.INVISIBLE);
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.radar);
+        }
+        
+        return rootView;
+    }
 
+    private void clickListenerPrevStep() {
         prevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -74,7 +78,9 @@ public class RadarFragment extends Fragment {
                 }
             }
         });
+    }
 
+    private void clickListenerNextStep() {
         nextStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -91,7 +97,9 @@ public class RadarFragment extends Fragment {
                 }
             }
         });
+    }
 
+    private void pageChangeListener() {
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position,
@@ -118,7 +126,21 @@ public class RadarFragment extends Fragment {
             public void onPageScrollStateChanged(final int state) {
             }
         });
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.radar);
-        return rootView;
+    }
+
+    private void setViewContents(final View rootView) {
+        mPager = (ViewPager) rootView.findViewById(R.id.pager);
+        nextStep = (ImageView) rootView.findViewById(R.id.next_step);
+        prevStep = (ImageView) rootView.findViewById(R.id.prev_step);
+        stepIndicator = (TextView) rootView.findViewById(R.id.steps_text);
+    }
+
+    private void initializeContents() {
+        PagerAdapter mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
+                stepsContent, NUM_PAGES);
+        mPager.setAdapter(mPagerAdapter);
+
+        stepIndicator.setText(Html.fromHtml(getString(steps[0])));
+        prevStep.setVisibility(View.INVISIBLE);
     }
 }
