@@ -5,7 +5,6 @@
  * Purpose: Shows the guidelines and steps to manage risks and danger
  */
 
-
 package com.peacecorps.pcsa.safety_tools;
 
 import android.os.Bundle;
@@ -35,7 +34,7 @@ public class RadarFragment extends Fragment {
     private final int[] steps = new int[]{R.string.step_1, R.string.step_2,
             R.string.step_3, R.string.step_4, R.string.step_5};
 
-    public static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 5;
     private enum pages {
         FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE
     }
@@ -81,8 +80,12 @@ public class RadarFragment extends Fragment {
         prevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-                stepIndicator.setText(Html.fromHtml(getString(steps[mPager.getCurrentItem()])));
+                int previousPage = mPager.getCurrentItem() - 1;
+                mPager.setCurrentItem(previousPage);
+
+                CharSequence stepTitle = Html.fromHtml(getString(steps[mPager.getCurrentItem()]));
+                Log.d(TAG, "Page Text " + stepTitle);
+                stepIndicator.setText(stepTitle);
 
                 if (mPager.getCurrentItem() == pages.FIRST_PAGE.ordinal()) {
                     prevStep.setVisibility(View.INVISIBLE);
@@ -104,8 +107,12 @@ public class RadarFragment extends Fragment {
         nextStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-                stepIndicator.setText(Html.fromHtml(getString(steps[mPager.getCurrentItem()])));
+                int nextPage = mPager.getCurrentItem() + 1;
+                mPager.setCurrentItem(nextPage);
+
+                CharSequence stepTitle = Html.fromHtml(getString(steps[mPager.getCurrentItem()]));
+                Log.d(TAG, "Page Text " + stepTitle);
+                stepIndicator.setText(stepTitle);
 
                 if (mPager.getCurrentItem() == pages.FIFT_PAGE.ordinal()) {
                     nextStep.setVisibility(View.INVISIBLE);
@@ -135,12 +142,16 @@ public class RadarFragment extends Fragment {
                 stepIndicator.setText(Html.fromHtml(getString(steps[position])));
 
                 if (position == pages.FIRST_PAGE.ordinal()) {
+                    Log.d(TAG, "Reached first page, set prevStep button invisible.");
                     prevStep.setVisibility(View.INVISIBLE);
                 } else if (position == pages.FIFT_PAGE.ordinal()) {
+                    Log.d(TAG, "Reached last page, set nextStep button invisible.");
                     nextStep.setVisibility(View.INVISIBLE);
                 } else if (position == pages.SECOND_PAGE.ordinal()) {
+                    Log.d(TAG, "Passed first page, set prevStep button visible.");
                     prevStep.setVisibility(View.VISIBLE);
                 } else if (position == pages.FOURTH_PAGE.ordinal()) {
+                    Log.d(TAG, "Backed from last page, set nextStep button visible.");
                     nextStep.setVisibility(View.VISIBLE);
                 }
             }
@@ -173,7 +184,9 @@ public class RadarFragment extends Fragment {
                 stepsContent, NUM_PAGES);
         mPager.setAdapter(mPagerAdapter);
 
-        stepIndicator.setText(Html.fromHtml(getString(steps[0])));
+        CharSequence stepTitle = Html.fromHtml(getString(steps[0]));
+        stepIndicator.setText(stepTitle);
+
         prevStep.setVisibility(View.INVISIBLE);
     }
 }
