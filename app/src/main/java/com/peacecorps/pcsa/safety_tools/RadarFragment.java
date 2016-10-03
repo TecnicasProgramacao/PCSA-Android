@@ -25,24 +25,36 @@ import com.peacecorps.pcsa.R;
 
 public class RadarFragment extends Fragment {
 
-    public static final int NUM_PAGES = 5;
     public static final String TAG = RadarFragment.class.getSimpleName();
     private ViewPager mPager;
     private ImageView nextStep, prevStep;
     private TextView stepIndicator;
+
     private int[] stepsContent = new int[]{R.string.radar_step1, R.string.radar_step2,
             R.string.radar_step3, R.string.radar_step4, R.string.radar_step5};
-    private enum pages {
-        FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE
-    }
     private final int[] steps = new int[]{R.string.step_1, R.string.step_2,
             R.string.step_3, R.string.step_4, R.string.step_5};
 
+    public static final int NUM_PAGES = 5;
+    private enum pages {
+        FIRST_PAGE, SECOND_PAGE, THIRD_PAGE, FOURTH_PAGE, FIFT_PAGE
+    }
 
+
+    /**
+     * Creates and returns the view hierarchy associated with the fragment.
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     * @param savedInstanceState - If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here
+     * @return View - View of the fragment
+     */
     @Override
     public final View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
+
+        assert (inflater != null);
 
         View rootView =  inflater.inflate(R.layout.fragment_radar, container, false);
 
@@ -57,10 +69,14 @@ public class RadarFragment extends Fragment {
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.radar);
         }
-        
+
         return rootView;
     }
 
+    /**
+     * Creates the click listener for the button previous step. When the first page is shown
+     * the button is set to invisible, otherwise is set to visible.
+     */
     private void clickListenerPrevStep() {
         prevStep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +96,10 @@ public class RadarFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates the click listener for the button next step. When the last page is shown
+     * the button is set to invisible, otherwise is set to visible.
+     */
     private void clickListenerNextStep() {
         nextStep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +119,9 @@ public class RadarFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates and initialize the onPageListener for the mPager variable.
+     */
     private void pageChangeListener() {
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -128,13 +151,23 @@ public class RadarFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates and set the components in the layout of the radar fragment with its IDs.
+     *
+     * @param rootView - Object inflated with the radarFragment layout.
+     */
     private void setViewContents(final View rootView) {
+        assert (rootView != null);
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         nextStep = (ImageView) rootView.findViewById(R.id.next_step);
         prevStep = (ImageView) rootView.findViewById(R.id.prev_step);
         stepIndicator = (TextView) rootView.findViewById(R.id.steps_text);
     }
 
+    /**
+     * Initialize the components (mPager, stepIndicator and prevStep) with its initial values.
+     */
     private void initializeContents() {
         PagerAdapter mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
                 stepsContent, NUM_PAGES);
