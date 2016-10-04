@@ -8,6 +8,7 @@
 package com.peacecorps.pcsa.safety_tools;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.peacecorps.pcsa.BuildConfig;
 import com.peacecorps.pcsa.R;
 
 public class RadarFragment extends Fragment {
@@ -27,13 +29,13 @@ public class RadarFragment extends Fragment {
     public static final String TAG = RadarFragment.class.getSimpleName();
 
     private ViewPager mPager = null;
-    private ImageView nextStep = null;
-    private ImageView prevStep = null;
+    private ImageView nextButton = null;
+    private ImageView prevButton = null;
     private TextView stepIndicator = null;
 
     private int[] stepsContent = new int[]{R.string.radar_step1, R.string.radar_step2,
             R.string.radar_step3, R.string.radar_step4, R.string.radar_step5};
-    private final int[] steps = new int[]{R.string.step_1, R.string.step_2,
+    private final int[] stepTitles = new int[]{R.string.step_1, R.string.step_2,
             R.string.step_3, R.string.step_4, R.string.step_5};
 
     private static final int NUM_PAGES = 5;
@@ -52,8 +54,8 @@ public class RadarFragment extends Fragment {
      */
     @Override
     public final View onCreateView(final LayoutInflater inflater,
-                             final ViewGroup container,
-                             final Bundle savedInstanceState) {
+                             @Nullable final ViewGroup container,
+                             @Nullable final Bundle savedInstanceState) {
 
         assert (inflater != null);
 
@@ -67,8 +69,11 @@ public class RadarFragment extends Fragment {
 
         pageChangeListener();
 
+        // getSupportActionBar() may return null. If null may crash the program.
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.radar);
+        } else {
+            Log.e(TAG, "getSupportActionBar() is null.");
         }
 
         return rootView;
@@ -79,24 +84,15 @@ public class RadarFragment extends Fragment {
      * the button is set to invisible, otherwise is set to visible.
      */
     private void clickListenerPrevStep() {
-        prevStep.setOnClickListener(new View.OnClickListener() {
+        prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 int previousPage = mPager.getCurrentItem() - 1;
-                mPager.setCurrentItem(previousPage);
 
-                CharSequence stepTitle = Html.fromHtml(getString(steps[mPager.getCurrentItem()]));
-                Log.d(TAG, "Page Text " + stepTitle);
-                stepIndicator.setText(stepTitle);
+                setCurrentPage(previousPage);
 
-                if (mPager.getCurrentItem() == pages.FIRST_PAGE.ordinal()) {
-                    prevStep.setVisibility(View.INVISIBLE);
-                    Log.d(TAG, "Prev Button hidden. mPager " + mPager.getCurrentItem());
-                }
-
-                if (nextStep.getVisibility() == View.INVISIBLE) {
-                    nextStep.setVisibility(View.VISIBLE);
-                }
+                correctVisibility(prevButton);
+                correctVisibility(nextButton);
             }
         });
     }
@@ -106,24 +102,15 @@ public class RadarFragment extends Fragment {
      * the button is set to invisible, otherwise is set to visible.
      */
     private void clickListenerNextStep() {
-        nextStep.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 int nextPage = mPager.getCurrentItem() + 1;
-                mPager.setCurrentItem(nextPage);
 
-                CharSequence stepTitle = Html.fromHtml(getString(steps[mPager.getCurrentItem()]));
-                Log.d(TAG, "Page Text " + stepTitle);
-                stepIndicator.setText(stepTitle);
+                setCurrentPage(nextPage);
 
-                if (mPager.getCurrentItem() == pages.FIFT_PAGE.ordinal()) {
-                    nextStep.setVisibility(View.INVISIBLE);
-                    Log.d(TAG, "Next Button hidden. mPager " + mPager.getCurrentItem());
-                }
-
-                if (prevStep.getVisibility() == View.INVISIBLE) {
-                    prevStep.setVisibility(View.VISIBLE);
-                }
+                correctVisibility(prevButton);
+                correctVisibility(nextButton);
             }
         });
     }
@@ -137,31 +124,82 @@ public class RadarFragment extends Fragment {
             public void onPageScrolled(final int position,
                                        final float positionOffset,
                                        final int positionOffsetPixels) {
+                // Do nothing.
             }
 
             @Override
             public void onPageSelected(final int position) {
-                stepIndicator.setText(Html.fromHtml(getString(steps[position])));
-
-                if (position == pages.FIRST_PAGE.ordinal()) {
-                    Log.d(TAG, "Reached first page, set prevStep button invisible.");
-                    prevStep.setVisibility(View.INVISIBLE);
-                } else if (position == pages.FIFT_PAGE.ordinal()) {
-                    Log.d(TAG, "Reached last page, set nextStep button invisible.");
-                    nextStep.setVisibility(View.INVISIBLE);
-                } else if (position == pages.SECOND_PAGE.ordinal()) {
-                    Log.d(TAG, "Passed first page, set prevStep button visible.");
-                    prevStep.setVisibility(View.VISIBLE);
-                } else if (position == pages.FOURTH_PAGE.ordinal()) {
-                    Log.d(TAG, "Backed from last page, set nextStep button visible.");
-                    nextStep.setVisibility(View.VISIBLE);
-                }
+                /* Do nothing. All the page processing is done when the user
+                 clicks the previous and next buttons.
+                */
             }
 
             @Override
             public void onPageScrollStateChanged(final int state) {
+                // Do nothing.
             }
         });
+    }
+
+    /**
+     * This method checks which page is displayed and change the visibility of the button
+     * accordingly.
+     *
+     * @param button - Button to be evaluated the visibility
+     */
+    private void correctVisibility(final ImageView button) {
+        assert (button != null);
+
+        final int buttonId = button.getId();
+        final int nextButtonId = nextButton.getId();
+        final int prevButtonId = prevButton.getId();
+
+        // Assert that the button is a known button.
+        if (BuildConfig.DEBUG && !(buttonId == nextButtonId || buttonId == prevButtonId)) {
+            Log.e(TAG, "Severe error, button not recognized in correctVisibility().");
+            throw new AssertionError();
+        } else {
+            Log.d(TAG, "Button is known.");
+        }
+
+        if (button.getId() == prevButton.getId()) { // The object is the prevButton.
+            if (mPager.getCurrentItem() == pages.FIRST_PAGE.ordinal()) { // Reached the last page.
+                prevButton.setVisibility(View.INVISIBLE);
+            } else {
+                prevButton.setVisibility(View.VISIBLE);
+            }
+
+        } else if (button.getId() == nextButton.getId()) { // The object is the nextButton.
+            if (mPager.getCurrentItem() == pages.FIFT_PAGE.ordinal()) { // Reached the last page.
+                nextButton.setVisibility(View.INVISIBLE);
+            } else {
+                nextButton.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            // Do nothing, the button is unknown.
+        }
+
+    }
+
+    /**
+     * Set and display the page chosen and writes the correct title for it.
+     *
+     * @param page - Number of page to be displayed
+     */
+    private void setCurrentPage(final int page) throws AssertionError {
+        // Assert is unreliable, BuildConfig.DEBUG is more reliable.
+        if (BuildConfig.DEBUG && !(page >= 0 && page <= NUM_PAGES)) {
+            throw new AssertionError();
+        } else {
+            Log.d(TAG, "Page number in correct interval.");
+        }
+
+        mPager.setCurrentItem(page);
+
+        String stepTitle = getString(stepTitles[mPager.getCurrentItem()]);
+        Log.d(TAG, "Page Text " + stepTitle);
+        stepIndicator.setText(Html.fromHtml(stepTitle));
     }
 
     /**
@@ -173,22 +211,26 @@ public class RadarFragment extends Fragment {
         assert (rootView != null);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        nextStep = (ImageView) rootView.findViewById(R.id.next_step);
-        prevStep = (ImageView) rootView.findViewById(R.id.prev_step);
+        nextButton = (ImageView) rootView.findViewById(R.id.next_step);
+        prevButton = (ImageView) rootView.findViewById(R.id.prev_step);
         stepIndicator = (TextView) rootView.findViewById(R.id.steps_text);
     }
 
     /**
-     * Initialize the components (mPager, stepIndicator and prevStep) with its initial values.
+     * Initialize the components (mPager, stepIndicator and prevButton) with its initial values.
      */
     private void initializeContents() {
         PagerAdapter mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
                 stepsContent, NUM_PAGES);
         mPager.setAdapter(mPagerAdapter);
 
-        CharSequence stepTitle = Html.fromHtml(getString(steps[0]));
-        stepIndicator.setText(stepTitle);
+        try {
+            setCurrentPage(pages.FIRST_PAGE.ordinal());
+        } catch (AssertionError error) {
+            Log.e(TAG, "Error, page index out of bounds");
+        }
 
-        prevStep.setVisibility(View.INVISIBLE);
+
+        prevButton.setVisibility(View.INVISIBLE);
     }
 }
