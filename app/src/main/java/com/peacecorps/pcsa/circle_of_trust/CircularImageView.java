@@ -119,15 +119,29 @@ public class CircularImageView extends ImageView {
         }
     }
 
+    /**
+     * Draws circle in the center of border rectangle
+     * @param canvas
+     */
     @Override
     protected final void onDraw(final Canvas canvas) {
         if (getDrawable() == null) {
             return;
         }
 
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius, mBitmapPaint);
+        /* HALF_BORDER_WIDTH and HALF_BORDER_HEIGHT indicate the center of the rectangle (borders)
+         * The will be used to draw a circle in the center of the rectangle.
+         */
+        final int HALF_BORDER_WIDTH = getWidth() / 2;
+        final int HALF_BORDER_HEIGHT = getHeight() / 2;
+
+        canvas.drawCircle(HALF_BORDER_WIDTH, HALF_BORDER_HEIGHT, mDrawableRadius, mBitmapPaint);
+
         if (mBorderWidth != 0) {
-            canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius, mBorderPaint);
+            canvas.drawCircle(HALF_BORDER_WIDTH, HALF_BORDER_HEIGHT, mBorderRadius, mBorderPaint);
+        }
+        else {
+            // Do nothing.
         }
     }
 
