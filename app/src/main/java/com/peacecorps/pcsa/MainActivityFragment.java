@@ -67,6 +67,34 @@ public class MainActivityFragment extends Fragment {
     }
 
     /**
+     * Receive the result from a previous call to
+     * @param requestCode - The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode - The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data - An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 2:
+                introFinished = true;
+                //Swapping CircleOfTrustFragment into the container
+                CircleOfTrustFragment circleOfTrustFragment = new CircleOfTrustFragment();
+                MainActivity.swapFragmentIn(getActivity(),
+                        circleOfTrustFragment,
+                        CircleOfTrustFragment.TAG,
+                        true);
+            default:
+                //Nothing to do
+        }
+    }
+
+    /**
      * Setting on click listeners of buttons of the MainActivityFragment class
      */
 
@@ -160,33 +188,5 @@ public class MainActivityFragment extends Fragment {
         supportServicesButton = (Button) rootView.findViewById(R.id.supportServicesButton);
         assaultAwarenessButton = (Button) rootView.findViewById(R.id.assaultAwarenessButton);
         policiesButton = (Button) rootView.findViewById(R.id.policiesButton);
-    }
-
-    /**
-     * Receive the result from a previous call to
-     * @param requestCode - The integer request code originally supplied to
-     *                    startActivityForResult(), allowing you to identify who this
-     *                    result came from.
-     * @param resultCode - The integer result code returned by the child activity
-     *                   through its setResult().
-     * @param data - An Intent, which can return result data to the caller
-     *               (various data can be attached to Intent "extras").
-     */
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case 2:
-                introFinished = true;
-                //Swapping CircleOfTrustFragment into the container
-                CircleOfTrustFragment circleOfTrustFragment = new CircleOfTrustFragment();
-                MainActivity.swapFragmentIn(getActivity(),
-                        circleOfTrustFragment,
-                        CircleOfTrustFragment.TAG,
-                        true);
-            default:
-                //Nothing to do
-        }
     }
 }

@@ -351,7 +351,7 @@ public class CircleOfTrustFragment extends Fragment {
             }
         }
     }
-    
+
     /**
      * Sets the ImageButtons of the CircleOfTrustFragment view
      */
