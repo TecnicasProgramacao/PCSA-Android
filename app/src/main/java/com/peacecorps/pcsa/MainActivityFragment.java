@@ -82,6 +82,7 @@ public class MainActivityFragment extends Fragment {
                         true);
             }
         });
+
         getHelpNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -174,7 +175,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         switch (requestCode) {
             case 2:
                 introFinished = true;

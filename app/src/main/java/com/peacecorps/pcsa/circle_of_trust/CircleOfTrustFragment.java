@@ -134,234 +134,6 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     /**
-     * Set comrades views of the CircleOfTrustFragment view
-     */
-
-    private void setComradesViews() {
-        comradesViews = new ImageView[]{(ImageView) rootView.findViewById(R.id.com1Button),
-                (ImageView) rootView.findViewById(R.id.com2Button),
-                (ImageView) rootView.findViewById(R.id.com3Button),
-                (ImageView) rootView.findViewById(R.id.com4Button),
-                (ImageView) rootView.findViewById(R.id.com5Button),
-                (ImageView) rootView.findViewById(R.id.com6Button)};
-    }
-
-    /**
-     * Sets on clicks of buttons of the CircleOfTrustFragment view
-     */
-    private void setOnClicksListeners() {
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                startActivityForResult(new Intent(getActivity(), Trustees.class),
-                        REQUEST_CODE_TRUSTEES);
-            }
-        });
-
-        requestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (checkMobileNetworkAvailable(getActivity())) {
-                    if (vibrator.hasVibrator()) {
-                        // Only perform success pattern one time (-1 means "do not repeat")
-                        vibrator.vibrate(patternSuccess, -1);
-                    }
-
-                    MessageDialogBox messageDialogBox =
-                            MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
-                    messageDialogBox.show(getActivity().getSupportFragmentManager(),
-                            getString(R.string.message_options));
-
-                } else {
-                    if (vibrator.hasVibrator()) {
-                        // Only perform failure pattern one time (-1 means "do not repeat")
-                        vibrator.vibrate(patternFailure, -1);
-                    }
-                    Toast.makeText(getActivity(), R.string.network_unavailable,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    /**
-     * Verify if SMS is sent
-     */
-    private void verifySmsIsSend() {
-        //To verify if SMS is sent
-        sentReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(final Context context, final Intent intent) {
-                if (firstTime) {
-                    firstTime = false;
-                    sent.clear();
-                }
-                boolean anyError = false;
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        //Nothing to do
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        //Nothing to do
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        //Nothing to do
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        anyError = true;
-                        break;
-                    default:
-                        //Nothing to do
-                }
-
-                sent.add(anyError);
-                messageWasSent--;
-
-                if (messageWasSent == 0) {
-                    String logMessage = "";
-                    for (int i = 0; i < sent.size(); ++i) {
-                        if (!numbers[i].isEmpty()) {
-                            if (!sent.get(i)) {
-                                logMessage += numbers[i] + " : " + getString(R.string.sms_send_pass);
-                            } else {
-                                logMessage += numbers[i] + " : " + getString(R.string.sms_send_fail);
-                            }
-                            logMessage += "\n";
-                        }
-                    }
-
-                    CustomAlertDialogFragment customAlertDialogFragment =
-                            CustomAlertDialogFragment.newInstance(getString(R.string.log_title),
-                                    logMessage);
-                    customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),
-                            getString(R.string.dialog_tag));
-                    sent.clear();
-                }
-            }
-        };
-    }
-
-    /**
-     * Sets the ImageButtons of the CircleOfTrustFragment view
-     */
-
-    private void settingImageButtons() {
-        requestButton = (ImageButton) rootView.findViewById(R.id.requestButton);
-        editButton = (ImageButton) rootView.findViewById(R.id.editButton);
-    }
-
-    /**
-     * Sets the TextViews of the CircleOfTrustFragment view
-     * @param inflater - Object used to inflate any views in the fragment
-     * @param container - If non-null, is the parent view that the fragment should be attached to
-     */
-    private void settingTextView(final LayoutInflater inflater,
-                                 final ViewGroup container) {
-        assert rootView != null;
-        assert inflater != null;
-        assert container != null;
-
-        firstComradeName = (TextView) rootView.findViewById(R.id.com1ButtonName);
-        secondComradeName = (TextView) rootView.findViewById(R.id.com2ButtonName);
-        thirdComradeName = (TextView) rootView.findViewById(R.id.com3ButtonName);
-        fourthComradeName = (TextView) rootView.findViewById(R.id.com4ButtonName);
-        fifthComradeName = (TextView) rootView.findViewById(R.id.com5ButtonName);
-        sixthComradeName = (TextView) rootView.findViewById(R.id.com6ButtonName);
-
-        final String MY_PREFERENCES = "MyPreference";
-
-        sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES,
-                Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
-        allTextViews = new TextView[]{
-                firstComradeName,
-                secondComradeName,
-                thirdComradeName,
-                fourthComradeName,
-                fifthComradeName,
-                sixthComradeName};
-
-        for (int i = 0; i < allTextViews.length; ++i) {
-            allTextViews[i].setText(sharedPreferences.getString(NAME_KEY + i,
-                    getString(R.string.unregistered)));
-        }
-
-    }
-
-    /**
-     * Checks whether the device is connected to a mobile network or not
-     * @param appContext - Context of the fragment
-     * @return boolean - Return true if the device is connected
-     */
-    public static boolean checkMobileNetworkAvailable(final Context appContext) {
-
-        assert appContext != null;
-
-        TelephonyManager telephonyManager =
-                (TelephonyManager) appContext.getSystemService(Context.TELEPHONY_SERVICE);
-        boolean deviceIsConnected = false;
-        if (telephonyManager.getNetworkOperator() != null
-                && telephonyManager.getNetworkOperator().equals("")) {
-            deviceIsConnected = false;
-        } else {
-            deviceIsConnected = true;
-        }
-
-        return deviceIsConnected;
-    }
-
-    /**
-     * Called when the fragment is visible to the user and actively running.
-     */
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        locationHelper.startAcquiringLocation();
-    }
-
-    /**
-     * Called when the Fragment is no longer resumed.
-     */
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        locationHelper.stopAcquiringLocation();
-    }
-
-    /**
-     * Loads contact photos from the device saved contacts for comrades' numbers
-     */
-    private void loadContactPhotos() {
-
-        if (phoneNumbers == null) {
-            loadPhoneNumbers();
-        }
-        //reset comrades to defaults
-        for (ImageView view:comradesViews) {
-            view.setImageResource(R.drawable.ic_comrade);
-        }
-
-        for (int i = 0; i < phoneNumbers.length; i++) {
-            String number = phoneNumbers[i];
-            if (number != null && number.length() > 0) {
-                ContactPhotoLoader contactPhotoLoader = new ContactPhotoLoader();
-                contactPhotoLoader.setContext(this.getActivity());
-                ImageView button = null;
-                if (comradesViews.length > i) {
-                    button = comradesViews[i];
-                }
-
-                if (button != null) {
-                    contactPhotoLoader.setOutputView(button);
-                    contactPhotoLoader.execute(number);
-                }
-            }
-        }
-    }
-
-    /**
      * Sends a message to the comrades' phone numbers
      * @param optionSelected - Selected option
      */
@@ -469,25 +241,214 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     /**
-     * Retrieve phone numbers saved in Trustees
-     * @return true if the number retrieval is success
+     * Verify if SMS is sent
      */
-    private boolean loadPhoneNumbers() {
-        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES,
-                Context.MODE_PRIVATE);
-        try {
+    private void verifySmsIsSend() {
+        //To verify if SMS is sent
+        sentReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, final Intent intent) {
+                if (firstTime) {
+                    firstTime = false;
+                    sent.clear();
+                }
 
-            phoneNumbers = new String[Trustees.NUMBER_OF_COMRADES];
-            for (int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
-                phoneNumbers[i] = sharedPreferences.getString(Trustees.COMRADE_KEY.get(i), "");
+                boolean anyError = false;
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        //Nothing to do
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        //Nothing to do
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        //Nothing to do
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        anyError = true;
+                        break;
+                    default:
+                        //Nothing to do
+                }
+
+                sent.add(anyError);
+                messageWasSent--;
+
+                if (messageWasSent == 0) {
+                    String logMessage = "";
+                    for (int i = 0; i < sent.size(); ++i) {
+                        if (!numbers[i].isEmpty()) {
+                            if (!sent.get(i)) {
+                                logMessage += numbers[i] + " : " + getString(R.string.sms_send_pass);
+                            } else {
+                                logMessage += numbers[i] + " : " + getString(R.string.sms_send_fail);
+                            }
+                            logMessage += "\n";
+                        }
+                    }
+
+                    CustomAlertDialogFragment customAlertDialogFragment =
+                            CustomAlertDialogFragment.newInstance(getString(R.string.log_title),
+                                    logMessage);
+                    customAlertDialogFragment.show(getActivity().getSupportFragmentManager(),
+                            getString(R.string.dialog_tag));
+                    sent.clear();
+                }
             }
+        };
+    }
 
-            return true;
-        } catch (Exception e) {
-            Log.e(TAG, "Unable to load comrades numbers from shared preferences", e);
+    /**
+     * Checks whether the device is connected to a mobile network or not
+     * @param appContext - Context of the fragment
+     * @return boolean - Return true if the device is connected
+     */
+    public static boolean checkMobileNetworkAvailable(final Context appContext) {
+
+        assert appContext != null;
+
+        TelephonyManager telephonyManager =
+                (TelephonyManager) appContext.getSystemService(Context.TELEPHONY_SERVICE);
+
+        boolean deviceIsConnected = false;
+        if (telephonyManager.getNetworkOperator() != null
+                && telephonyManager.getNetworkOperator().equals("")) {
+            deviceIsConnected = false;
+        } else {
+            deviceIsConnected = true;
         }
 
-        return false;
+        return deviceIsConnected;
+    }
+
+    /**
+     * Loads contact photos from the device saved contacts for comrades' numbers
+     */
+    private void loadContactPhotos() {
+
+        if (phoneNumbers == null) {
+            loadPhoneNumbers();
+        }
+
+        //reset comrades to defaults
+        for (ImageView view:comradesViews) {
+            view.setImageResource(R.drawable.ic_comrade);
+        }
+
+        for (int i = 0; i < phoneNumbers.length; i++) {
+            String number = phoneNumbers[i];
+            if (number != null && number.length() > 0) {
+                ContactPhotoLoader contactPhotoLoader = new ContactPhotoLoader();
+                contactPhotoLoader.setContext(this.getActivity());
+                ImageView button = null;
+                if (comradesViews.length > i) {
+                    button = comradesViews[i];
+                }
+
+                if (button != null) {
+                    contactPhotoLoader.setOutputView(button);
+                    contactPhotoLoader.execute(number);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Sets the ImageButtons of the CircleOfTrustFragment view
+     */
+
+    private void settingImageButtons() {
+        requestButton = (ImageButton) rootView.findViewById(R.id.requestButton);
+        editButton = (ImageButton) rootView.findViewById(R.id.editButton);
+    }
+
+    /**
+     * Sets the TextViews of the CircleOfTrustFragment view
+     * @param inflater - Object used to inflate any views in the fragment
+     * @param container - If non-null, is the parent view that the fragment should be attached to
+     */
+    private void settingTextView(final LayoutInflater inflater,
+                                 final ViewGroup container) {
+        assert rootView != null;
+        assert inflater != null;
+        assert container != null;
+
+        firstComradeName = (TextView) rootView.findViewById(R.id.com1ButtonName);
+        secondComradeName = (TextView) rootView.findViewById(R.id.com2ButtonName);
+        thirdComradeName = (TextView) rootView.findViewById(R.id.com3ButtonName);
+        fourthComradeName = (TextView) rootView.findViewById(R.id.com4ButtonName);
+        fifthComradeName = (TextView) rootView.findViewById(R.id.com5ButtonName);
+        sixthComradeName = (TextView) rootView.findViewById(R.id.com6ButtonName);
+
+        final String MY_PREFERENCES = "MyPreference";
+
+        sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES,
+                Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        allTextViews = new TextView[]{
+                firstComradeName,
+                secondComradeName,
+                thirdComradeName,
+                fourthComradeName,
+                fifthComradeName,
+                sixthComradeName};
+
+        for (int i = 0; i < allTextViews.length; ++i) {
+            allTextViews[i].setText(sharedPreferences.getString(NAME_KEY + i,
+                    getString(R.string.unregistered)));
+        }
+
+    }
+
+    /**
+     * Set comrades views of the CircleOfTrustFragment view
+     */
+
+    private void setComradesViews() {
+        comradesViews = new ImageView[]{(ImageView) rootView.findViewById(R.id.com1Button),
+                (ImageView) rootView.findViewById(R.id.com2Button),
+                (ImageView) rootView.findViewById(R.id.com3Button),
+                (ImageView) rootView.findViewById(R.id.com4Button),
+                (ImageView) rootView.findViewById(R.id.com5Button),
+                (ImageView) rootView.findViewById(R.id.com6Button)};
+    }
+
+    /**
+     * Sets on clicks of buttons of the CircleOfTrustFragment view
+     */
+    private void setOnClicksListeners() {
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startActivityForResult(new Intent(getActivity(), Trustees.class),
+                        REQUEST_CODE_TRUSTEES);
+            }
+        });
+
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (checkMobileNetworkAvailable(getActivity())) {
+                    if (vibrator.hasVibrator()) {
+                        // Only perform success pattern one time (-1 means "do not repeat")
+                        vibrator.vibrate(patternSuccess, -1);
+                    }
+
+                    MessageDialogBox messageDialogBox =
+                            MessageDialogBox.newInstance(CircleOfTrustFragment.this, getActivity());
+                    messageDialogBox.show(getActivity().getSupportFragmentManager(),
+                            getString(R.string.message_options));
+
+                } else {
+                    if (vibrator.hasVibrator()) {
+                        // Only perform failure pattern one time (-1 means "do not repeat")
+                        vibrator.vibrate(patternFailure, -1);
+                    }
+                    Toast.makeText(getActivity(), R.string.network_unavailable,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /**
@@ -534,10 +495,52 @@ public class CircleOfTrustFragment extends Fragment {
     }
 
     /**
+     * Retrieve phone numbers saved in Trustees
+     * @return true if the number retrieval is success
+     */
+    private boolean loadPhoneNumbers() {
+        sharedPreferences = this.getActivity().getSharedPreferences(Trustees.MY_PREFERENCES,
+                Context.MODE_PRIVATE);
+        try {
+
+            phoneNumbers = new String[Trustees.NUMBER_OF_COMRADES];
+            for (int i = 0; i < Trustees.NUMBER_OF_COMRADES; i++) {
+                phoneNumbers[i] = sharedPreferences.getString(Trustees.COMRADE_KEY.get(i), "");
+            }
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to load comrades numbers from shared preferences", e);
+        }
+
+        return false;
+    }
+
+    /**
      * Invalidate current phone numbers and load again with contact photos
      */
     private void refreshPhotos() {
         phoneNumbers = null;
         loadContactPhotos();
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     */
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locationHelper.startAcquiringLocation();
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.
+     */
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationHelper.stopAcquiringLocation();
     }
 }
