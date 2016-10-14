@@ -84,6 +84,19 @@ public class SafetyPlanActivity extends AppCompatActivity {
         }
 
         /**
+         * Adds a fragment and a title referring to it
+         * @param fragment - Fragment to be added
+         * @param title - Title to be added to the fragment
+         */
+        public void addFragment(final Fragment fragment, final String title) {
+            assert fragment != null;
+            assert title != null;
+
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        /**
          * Grab a specific item from the list of security plans fragments
          * @param position - Item position to be caught
          * @return Fragment - Fragment containing the item for
@@ -103,19 +116,6 @@ public class SafetyPlanActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return mFragmentList.size();
-        }
-
-        /**
-         * Adds a fragment and a title referring to it
-         * @param fragment - Fragment to be added
-         * @param title - Title to be added to the fragment
-         */
-        public void addFragment(final Fragment fragment, final String title) {
-            assert fragment != null;
-            assert title != null;
-
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
         }
 
         /**

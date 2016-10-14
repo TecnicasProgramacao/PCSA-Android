@@ -50,15 +50,6 @@ public class PoliciesFragment extends Fragment {
     }
 
     /**
-     * Sets the Buttons of the PoliciesFragment view
-     */
-    private void setButtons() {
-        policyButton = (Button) rootView.findViewById(R.id.policiesButton);
-        glossaryButton = (Button) rootView.findViewById(R.id.glossaryButton);
-        furtherButton = (Button) rootView.findViewById(R.id.furtherButton);
-    }
-
-    /**
      * Sets the onClick listeners of the Buttons of the PoliciesFragment view
      */
     private void setOnClickListeners() {
@@ -94,5 +85,15 @@ public class PoliciesFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * Sets the Buttons of the PoliciesFragment view
+     */
+    private void setButtons() {
+        policyButton = (Button) rootView.findViewById(R.id.policiesButton);
+        glossaryButton = (Button) rootView.findViewById(R.id.glossaryButton);
+        furtherButton = (Button) rootView.findViewById(R.id.furtherButton);
+    }
+
 }
 

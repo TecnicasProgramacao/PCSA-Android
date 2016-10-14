@@ -86,11 +86,13 @@ public class CommunityFragment extends Fragment {
     }
 
     /**
-     * Set views of the CommunityFragment view
+     * Set adapter of pager of the CommunityFragment view
      */
-    private void settingView() {
-        mPager = (ViewPager) rootView.findViewById(R.id.safety_plan_pager);
-        actionButton = (Button) rootView.findViewById(R.id.actionButton);
+    private void settingAdapterOfPager() {
+        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
+                contentToDisplay,
+                SafetyPlanActivity.PAGES);
+        mPager.setAdapter(mPagerAdapter);
     }
 
     /**
@@ -112,12 +114,10 @@ public class CommunityFragment extends Fragment {
     }
 
     /**
-     * Set adapter of pager of the CommunityFragment view
+     * Set views of the CommunityFragment view
      */
-    private void settingAdapterOfPager() {
-        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
-                contentToDisplay,
-                SafetyPlanActivity.PAGES);
-        mPager.setAdapter(mPagerAdapter);
+    private void settingView() {
+        mPager = (ViewPager) rootView.findViewById(R.id.safety_plan_pager);
+        actionButton = (Button) rootView.findViewById(R.id.actionButton);
     }
 }
