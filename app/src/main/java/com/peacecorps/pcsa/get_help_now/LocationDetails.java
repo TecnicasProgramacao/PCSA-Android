@@ -7,71 +7,75 @@ package com.peacecorps.pcsa.get_help_now;
  * @since 07-08-2015
  */
 public class LocationDetails {
-    private String locationName;    // name of the current location of the volunteer
-    private String pcmoContact;     //contact number of Peace Corps Medical Officer
-    private String ssmContact;      //contact number of Safety and Security Manager
-    private String sarlContact;     //contact number of Sexual Assault Response Liason
+    private String volunteerLocationName;    // name of the current location of the volunteer
+    private String peaceCorpsMedicalOfficerContact;     //contact number of Peace Corps Medical Officer
+    private String safetyAndSecurityContact;      //contact number of Safety and Security Manager
+    private String sexualAssaultResponseLiasonContact;     //contact number of Sexual Assault Response Liason
 
-    public LocationDetails(String locationName, String pcmo_contact, String ssm_contact, String sarl_contact){
-        this.locationName = locationName;
-        this.pcmoContact = pcmo_contact;
-        this.ssmContact = ssm_contact;
-        this.sarlContact = sarl_contact;
+    public LocationDetails(final String volunteerLocationName, final String peaceCorpsMedicalOfficerContact,
+                           final String safetyAndSecurityContact,
+                           final String sexualAssaultResponseLiasonContact) {
+
+        this.volunteerLocationName = this.volunteerLocationName;
+        this.peaceCorpsMedicalOfficerContact = peaceCorpsMedicalOfficerContact;
+        this.safetyAndSecurityContact = safetyAndSecurityContact;
+        this.sexualAssaultResponseLiasonContact = sexualAssaultResponseLiasonContact;
+
     }
 
     /**
      * @return name of the current location of the volunteer
      */
-    public String getLocationName() {
-        return locationName;
+    public final String getVolunteerLocationName() {
+        return volunteerLocationName;
     }
 
     /**
-     * @param locationName set name of the current location of the volunteer
+     * @param volunteerLocationName set name of the current location of the volunteer
      */
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public final void setVolunteerLocationName(final String volunteerLocationName) {
+        this.volunteerLocationName = volunteerLocationName;
     }
 
     /**
      * @return contact number of Peace Corps Medical Officer
      */
-    public String getPcmoContact() {
-        return pcmoContact;
+    public final String getPeaceCorpsMedicalOfficerContact() {
+        return peaceCorpsMedicalOfficerContact;
     }
 
     /**
-     * @param pcmoContact set contact number of Peace Corps Medical Officer
+     * @param peaceCorpsMedicalOfficerContact set contact number of Peace Corps Medical Officer
      */
-    public void setPcmoContact(String pcmoContact) {
-        this.pcmoContact = pcmoContact;
+    public final void setPeaceCorpsMedicalOfficerContact(final String peaceCorpsMedicalOfficerContact) {
+        this.peaceCorpsMedicalOfficerContact = peaceCorpsMedicalOfficerContact;
     }
 
     /**
      * @return contact number of Safety and Security Manager
      */
-    public String getSsmContact() {
-        return ssmContact;
+    public final String getSafetyAndSecurityContact() {
+        return safetyAndSecurityContact;
     }
 
     /**
-     * @param ssmContact set contact number of Safety and Security Manager
+     * @param safetyAndSecurityContact set contact number of Safety and Security Manager
      */
-    public void setSsmContact(String ssmContact) {
-        this.ssmContact = ssmContact;
+    public final void setSafetyAndSecurityContact(final String safetyAndSecurityContact) {
+        this.safetyAndSecurityContact = safetyAndSecurityContact;
     }
 
     /**
      * @return contact number of Sexual Assault Response Liason
      */
-    public String getSarlContact() {
-        return sarlContact;
+    public final  String getSexualAssaultResponseLiasonContact() {
+        return sexualAssaultResponseLiasonContact;
     }
 
     /**
-     * @param sarlContact set contact number of Sexual Assault Response Liason
+     * @param sexualAssaultResponseLiasonContact set contact number of Sexual Assault Response Liason
      */
-    public void setSarlContact(String sarlContact) {
-        this.sarlContact = sarlContact;
+    public final void setSexualAssaultResponseLiasonContact(final String sexualAssaultResponseLiasonContact) {
+        this.sexualAssaultResponseLiasonContact = sexualAssaultResponseLiasonContact;
     }
 }
