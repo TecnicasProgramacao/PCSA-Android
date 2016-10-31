@@ -27,7 +27,7 @@ public class ContactOtherStaff extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater,
+    public final View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
 
@@ -41,6 +41,7 @@ public class ContactOtherStaff extends Fragment {
         Button contactOig = (Button) rootView.findViewById(R.id.oig);
         //Button to access Office of Civil Rights and diversity
         Button contactOcrd = (Button) rootView.findViewById(R.id.ocrd);
+
         ImageView contactPostStaff = (ImageView) rootView.findViewById(R.id.link_to_post_staff);
 
         contactPcSaves.setText(R.string.contact_pcsaves);
