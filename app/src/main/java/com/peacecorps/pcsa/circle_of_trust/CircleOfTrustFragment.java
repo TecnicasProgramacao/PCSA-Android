@@ -77,9 +77,9 @@ public class CircleOfTrustFragment extends Fragment {
     private static int messageWasSent = INT_ZERO;
     private static List<Boolean> sent = new ArrayList<>();
     private ArrayList<PendingIntent> sentIntents = new ArrayList<>();
-    private String numbers[];
-    public static BroadcastReceiver sentReceiver;
-    public static Map allNamesOfCircleOfTrust = new HashMap();
+    private String numbers[ ];
+    private static BroadcastReceiver sentReceiver;
+    private static Map allNamesOfCircleOfTrust = new HashMap();
 
     private TextView firstComradeName, secondComradeName, thirdComradeName,
             fourthComradeName, fifthComradeName, sixthComradeName;
@@ -104,7 +104,7 @@ public class CircleOfTrustFragment extends Fragment {
      */
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+    public final View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
         assert inflater != null;
@@ -137,7 +137,7 @@ public class CircleOfTrustFragment extends Fragment {
      * Sends a message to the comrades' phone numbers
      * @param optionSelected - Selected option
      */
-    public void sendMessage(final String optionSelected) {
+    final void sendMessage(final String optionSelected) {
         assert optionSelected != null;
 
         SmsManager sms = SmsManager.getDefault();
@@ -175,7 +175,9 @@ public class CircleOfTrustFragment extends Fragment {
         if (phoneNumbers == null) {
             loadPhoneNumbers();
         } else {
+
             //Nothing to do
+
         }
 
         // The numbers variable holds the Comrades numbers
@@ -195,7 +197,9 @@ public class CircleOfTrustFragment extends Fragment {
             if (!number.isEmpty()) {
                 numRegisteredComrades++;
             } else {
+
                 //Nothing to do
+
             }
         }
         messageWasSent = numParts * numRegisteredComrades;
@@ -379,9 +383,9 @@ public class CircleOfTrustFragment extends Fragment {
         fifthComradeName = (TextView) rootView.findViewById(R.id.com5ButtonName);
         sixthComradeName = (TextView) rootView.findViewById(R.id.com6ButtonName);
 
-        final String MY_PREFERENCES = "MyPreference";
+        final String MYPREFERENCES = "MyPreference";
 
-        sharedPreferences = getActivity().getSharedPreferences(MY_PREFERENCES,
+        sharedPreferences = getActivity().getSharedPreferences(MYPREFERENCES,
                 Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -463,7 +467,7 @@ public class CircleOfTrustFragment extends Fragment {
      */
 
     @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public final void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
         assert data != null;
 
@@ -529,7 +533,7 @@ public class CircleOfTrustFragment extends Fragment {
      */
 
     @Override
-    public void onResume() {
+    public final void onResume() {
         super.onResume();
         locationHelper.startAcquiringLocation();
     }
@@ -539,7 +543,7 @@ public class CircleOfTrustFragment extends Fragment {
      */
 
     @Override
-    public void onPause() {
+    public final void onPause() {
         super.onPause();
         locationHelper.stopAcquiringLocation();
     }
