@@ -22,39 +22,50 @@ import com.peacecorps.pcsa.SingleTextViewFragment;
 public class AfterAssaultFragment extends Fragment{
 
     public final static String TAG = AfterAssaultFragment.class.getSimpleName();
-    Button stepsButton,ongoingButton,immediateButton;
+    private Button stepsButton;
+    private Button ongoingButton;
+    private Button immediateButton;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(final LayoutInflater inflater,
+                                   @Nullable final ViewGroup container,
+                                   @Nullable final Bundle savedInstanceState) {
 
-        View rootView =  inflater.inflate(R.layout.fragment_after_assault,container,false);
+        View rootView =  inflater.inflate(R.layout.fragment_after_assault, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.after_assault);
         stepsButton = (Button) rootView.findViewById(R.id.stepsButton);
         ongoingButton = (Button) rootView.findViewById(R.id.ongoingButton);
         immediateButton = (Button) rootView.findViewById(R.id.immediateButton);
         stepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 //Swapping StepsFragment into the container
                 StepsFragment stepsFragment = new StepsFragment();
-                MainActivity.swapFragmentIn(getActivity(),stepsFragment,StepsFragment.TAG,true);
+                MainActivity.swapFragmentIn(getActivity(),
+                        stepsFragment,
+                        StepsFragment.TAG,
+                        true);
 
             }
         });
         ongoingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingleTextViewFragment.showSingleTextLayout(getActivity(),getString(R.string.after_assault),
-                        getString(R.string.ongoing_title),getString(R.string.ongoing_info));
+                SingleTextViewFragment.showSingleTextLayout(getActivity(),
+                        getString(R.string.after_assault),
+                        getString(R.string.ongoing_title),
+                        getString(R.string.ongoing_info));
             }
         });
 
         immediateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingleTextViewFragment.showSingleTextLayout(getActivity(),getString(R.string.after_assault),
-                        getString(R.string.immediate_title),getString(R.string.immediate_support_info));
+                SingleTextViewFragment.showSingleTextLayout(getActivity(),
+                        getString(R.string.after_assault),
+                        getString(R.string.immediate_title),
+                        getString(R.string.immediate_support_info));
             }
         });
         return rootView;
