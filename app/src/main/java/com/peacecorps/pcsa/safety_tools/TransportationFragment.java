@@ -23,55 +23,82 @@ public class TransportationFragment extends Fragment {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    int[] contentToDisplay = new int[]{R.string.safety_plan_6_concerns,R.string.safety_plan_6_action};
+    int[] contentToDisplay = new int[]{R.string.safety_plan_6_concerns,
+            R.string.safety_plan_6_action};
     Button actionButton;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             @Nullable final ViewGroup container,
+                             @Nullable final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_safety_plan_common, container, false);
-        mPager = (ViewPager) rootView.findViewById(R.id.safety_plan_pager);
-        actionButton = (Button) rootView.findViewById(R.id.actionButton);
-        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(), contentToDisplay, SafetyPlanActivity.PAGES);
-        mPager.setAdapter(mPagerAdapter);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(actionButton.getText().toString().equals(getString(R.string.see_action)))
-                {
-                    actionButton.setText(Html.fromHtml(getString(R.string.see_concerns)));
-                    mPager.setCurrentItem(1);
-                }
-                else
-                {
-                    actionButton.setText(Html.fromHtml(getString(R.string.see_action)));
-                    mPager.setCurrentItem(0);
-                }
-            }
-        });
 
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(position == 1)
-                    actionButton.setText(Html.fromHtml(getString(R.string.see_concerns)));
-                else
-                    actionButton.setText(Html.fromHtml(getString(R.string.see_action)));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        initializePager(rootView);
+        initializeButton(rootView);
 
         return rootView;
     }
 
+    private void initializePager(final View rootView) {
+        mPager = (ViewPager) rootView.findViewById(R.id.safety_plan_pager);
+        mPagerAdapter = new ScreenSlideCustomPagerAdapter(getActivity(),
+                contentToDisplay,
+                SafetyPlanActivity.PAGES);
+        mPager.setAdapter(mPagerAdapter);
+
+        setPageChange();
+    }
+
+    private void setPageChange() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(final int position,
+                                       final float positionOffset,
+                                       final int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(final int position) {
+                if (position == 1) {
+                    String seeConcerns = getString(R.string.see_concerns);
+                    actionButton.setText(Html.fromHtml(seeConcerns));
+                } else {
+                    String seeAction = getString(R.string.see_action);
+                    actionButton.setText(Html.fromHtml(seeAction));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int state) {
+
+            }
+        });
+    }
+
+    private void initializeButton(final View rootView) {
+        actionButton = (Button) rootView.findViewById(R.id.actionButton);
+        setActionClickListener();
+    }
+
+    private void setActionClickListener() {
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                String actionString = actionButton.getText().toString();
+                String seeAction = getString(R.string.see_action);
+
+                if (actionString.equals(seeAction)) {
+                    String concerns = getString(R.string.see_concerns);
+                    actionButton.setText(Html.fromHtml(concerns));
+                    mPager.setCurrentItem(1);
+                } else {
+                    actionButton.setText(Html.fromHtml(seeAction));
+                    mPager.setCurrentItem(0);
+                }
+            }
+        });
+    }
 
 }

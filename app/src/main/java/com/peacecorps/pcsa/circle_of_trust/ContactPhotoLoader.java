@@ -29,7 +29,7 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
     private Context context;
 
     @Override
-    protected Bitmap doInBackground(final String... params) {
+    protected final Bitmap doInBackground(final String... params) {
         assert context != null : "context not set";
         assert outputView != null : "outputView not set";
 
@@ -44,7 +44,7 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
     }
 
     @Override
-    protected void onPostExecute(final Bitmap bitmap) {
+    protected final void onPostExecute(final Bitmap bitmap) {
         super.onPostExecute(bitmap);
         if (bitmap != null) {
             outputView.setImageBitmap(bitmap);
@@ -68,7 +68,9 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
         try {
             Integer thumbnailId = null;
             if (cursor != null && cursor.moveToFirst()) {
-                thumbnailId = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
+                String photoId = ContactsContract.Contacts.PHOTO_ID;
+                int columnIndex = cursor.getColumnIndex(photoId);
+                thumbnailId = cursor.getInt(columnIndex);
             }
             return thumbnailId;
         } catch (Exception e) {
@@ -98,7 +100,8 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
             if (cursor != null && cursor.moveToFirst()) {
                 final byte[] thumbnailBytes = cursor.getBlob(0);
                 if (thumbnailBytes != null) {
-                    thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
+                    int length = thumbnailBytes.length;
+                    thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, length);
                 }
             }
             return thumbnail;

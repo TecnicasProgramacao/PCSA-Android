@@ -155,7 +155,8 @@ public class RadarFragment extends Fragment {
         final int prevButtonId = prevButton.getId();
 
         // Assert that the button is a known button.
-        if (BuildConfig.DEBUG && !(buttonId == nextButtonId || buttonId == prevButtonId)) {
+        boolean isNotPrevOrNext = !(buttonId == nextButtonId || buttonId == prevButtonId);
+        if (BuildConfig.DEBUG && isNotPrevOrNext) {
             Log.e(TAG, "Severe error, button not recognized in correctVisibility().");
             throw new AssertionError();
         } else {
@@ -189,7 +190,8 @@ public class RadarFragment extends Fragment {
      */
     private void setCurrentPage(final int page) throws AssertionError {
         // Assert is unreliable, BuildConfig.DEBUG is more reliable.
-        if (BuildConfig.DEBUG && !(page >= 0 && page <= NUM_PAGES)) {
+        boolean pageIsNotInInterval = !(page >= 0 && page <= NUM_PAGES);
+        if (BuildConfig.DEBUG && pageIsNotInInterval) {
             throw new AssertionError();
         } else {
             Log.d(TAG, "Page number in correct interval.");

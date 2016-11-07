@@ -18,7 +18,9 @@ import com.peacecorps.pcsa.R;
  */
 public class MessageAdapter extends BaseAdapter {
 
-    public static int[] messages = {R.string.come_get_me, R.string.need_interruption, R.string.need_to_talk};
+    public static int[] messages = {R.string.come_get_me,
+            R.string.need_interruption,
+            R.string.need_to_talk};
     Context context;
     private static LayoutInflater inflater;
     private static Dialog listDialog;

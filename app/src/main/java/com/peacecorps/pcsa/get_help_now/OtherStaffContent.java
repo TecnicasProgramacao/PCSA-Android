@@ -32,9 +32,9 @@ public class OtherStaffContent extends Fragment implements AdapterView.OnItemCli
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(final LayoutInflater inflater,
+                             @Nullable final ViewGroup container,
+                             @Nullable final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reporting_other_staff_content,
                 container, false);
 
@@ -50,12 +50,16 @@ public class OtherStaffContent extends Fragment implements AdapterView.OnItemCli
         contactNow.setText("Contact Now");
         contactNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
+                String contact = getString(R.string.contact);
+                String contactName = details.getString(CONTACT_NAME);
+                String viaString = getString(R.string.via);
+                String dialogString = contact + " " + contactName + " " + viaString;
 
                 ContactOptionsDialogBox contactOptionsDialogBox =
-                        ContactOptionsDialogBox.newInstance(getString(R.string.contact) + " "
-                                + details.getString(CONTACT_NAME) + " " + getString(R.string.via),
-                                getActivity(), OtherStaffContent.this);
+                        ContactOptionsDialogBox.newInstance(dialogString,
+                                getActivity(),
+                                OtherStaffContent.this);
 
                 contactOptionsDialogBox.show(getActivity().getSupportFragmentManager(),
                         getString(R.string.dialog_tag));
@@ -76,7 +80,10 @@ public class OtherStaffContent extends Fragment implements AdapterView.OnItemCli
      * @param id The row id of the item that was clicked.
      */
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public final void onItemClick(final AdapterView<?> parent,
+                                  final View view,
+                                  final int position,
+                                  final long id) {
 
         //For Voice Call
         if (position == 1) {
