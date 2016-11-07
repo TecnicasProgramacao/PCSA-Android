@@ -19,13 +19,13 @@ public class ContactListAdapter extends ArrayAdapter {
 
     private static LayoutInflater inflater;
 
-    public ContactListAdapter(Context context, Object[] objects) {
+    public ContactListAdapter(final Context context, final Object[] objects) {
         super(context, R.layout.dialog_list, objects);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(final int position, final View convertView, final ViewGroup parent) {
         View rowView;
         rowView = inflater.inflate(R.layout.contacts_dialog_listitem, null);
         TextView textView = (TextView) rowView.findViewById(R.id.dialog_txt);

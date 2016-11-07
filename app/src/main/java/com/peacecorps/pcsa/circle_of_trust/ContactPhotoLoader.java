@@ -37,7 +37,9 @@ public class ContactPhotoLoader extends AsyncTask<String, Integer, Bitmap> {
             String phoneNumber = params[0];
             Integer thumbnailId = fetchThumbnailId(phoneNumber);
             if (thumbnailId != null) {
-                return fetchThumbnail(thumbnailId);
+                Bitmap fetchedThumbnail = fetchThumbnail(thumbnailId);
+                assert fetchedThumbnail != null : "Can't fetch thumbnail";
+                return fetchedThumbnail;
             }
         }
         return null;

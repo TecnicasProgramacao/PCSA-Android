@@ -91,7 +91,7 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
         contactPcmo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                numberToContact = selectedLocationDetails.getPcmoContact();
+                numberToContact = selectedLocationDetails.getPeaceCorpsMedicalOfficerContact();
 
                 ContactOptionsDialogBox contactOptionsDialogBox =
                         ContactOptionsDialogBox.newInstance(getString(R.string.contact_pcmo_via),
@@ -105,7 +105,7 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
         contactSsm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                numberToContact = selectedLocationDetails.getSsmContact();
+                numberToContact = selectedLocationDetails.getSafetyAndSecurityContact();
                 ContactOptionsDialogBox contactOptionsDialogBox =
                         ContactOptionsDialogBox.newInstance(getString(R.string.contact_ssm_via),
                         getActivity(), ContactPostStaff.this);
@@ -118,7 +118,7 @@ public class ContactPostStaff extends Fragment implements AdapterView.OnItemClic
         contactSarl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                numberToContact = selectedLocationDetails.getSarlContact();
+                numberToContact = selectedLocationDetails.getSexualAssaultResponseLiasonContact();
                 ContactOptionsDialogBox contactOptionsDialogBox =
                         ContactOptionsDialogBox.newInstance(getString(R.string.contact_sarl_via),
                         getActivity(), ContactPostStaff.this);

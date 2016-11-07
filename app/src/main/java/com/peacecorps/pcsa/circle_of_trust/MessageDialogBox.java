@@ -33,8 +33,7 @@ public class MessageDialogBox extends DialogFragment {
     private Dialog listDialog;
 
     //Need a compulsory empty constructor for recreation of dialog while handling config changes
-    public MessageDialogBox()
-    {
+    public MessageDialogBox() {
 
     }
 
@@ -44,8 +43,8 @@ public class MessageDialogBox extends DialogFragment {
      * @param activity Activity which holds the fragment, required for context
      * @return Dialog object
      */
-    public static MessageDialogBox newInstance(CircleOfTrustFragment objCircleOfTrustFragment, Activity activity)
-    {
+    public static MessageDialogBox newInstance(final CircleOfTrustFragment objCircleOfTrustFragment,
+                                               final Activity activity) {
         MessageDialogBox.objCircleOfTrustFragment = objCircleOfTrustFragment;
         context = activity;
         MessageDialogBox messageDialogBox = new MessageDialogBox();
@@ -54,25 +53,25 @@ public class MessageDialogBox extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public final Dialog onCreateDialog(final Bundle savedInstanceState) {
 
-        //Initialising the dialog box
         listDialog = new Dialog(context);
         listDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         listDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        //Initialising the listview
+
         View view = layoutInflater.inflate(R.layout.dialog_list, null);
         listDialog.setContentView(view);
         ListView list1 = (ListView) listDialog.findViewById(R.id.dialog_listview);
 
-        //Adding the header(title) to the dialog box
+        final int sizeOfWindow = 25;
+
         TextView textView = new TextView(context);
         textView.setText(getString(R.string.select_request));
         textView.setTextColor(context.getResources().getColor(R.color.primary_text_default_material_dark));
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeOfWindow);
         textView.setGravity(Gravity.CENTER);
         list1.addHeaderView(textView);
 
@@ -81,7 +80,8 @@ public class MessageDialogBox extends DialogFragment {
         //Providing functionality to the listitems (Send the selected message)
         list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                                    final int position, final long id) {
 
                 if (position != 0) {
                     String optionSelected = getString(MessageAdapter.messages[position - 1]);
