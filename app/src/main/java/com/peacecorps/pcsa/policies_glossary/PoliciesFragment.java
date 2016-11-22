@@ -69,7 +69,7 @@ public class PoliciesFragment extends Fragment {
                 //Swapping GlossaryFragment into the container
                 GlossaryFragment glossaryFragment = new GlossaryFragment();
                 MainActivity.swapFragmentIn(getActivity(), glossaryFragment,
-                        GlossaryFragment.TAG, true);
+                        GlossaryFragment.SIMPLENAME, true);
             }
         });
 

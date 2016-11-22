@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class GlossaryFragment extends Fragment {
 
-    public static final String TAG = GlossaryFragment.class.getSimpleName();
+    public static final String SIMPLENAME = GlossaryFragment.class.getSimpleName();
     List<String> listDataHeader = new ArrayList<>();
     EditText searchBox;
     HashMap<String, List<String>> listDataChild = new HashMap<>();
@@ -46,17 +46,17 @@ public class GlossaryFragment extends Fragment {
         searchBox = (EditText)rootView.findViewById(R.id.inputSearch);
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int start, int counter, int afterChange) {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e("INPUT",s.toString());
-                listAdapter.filter(s.toString());
+            public void onTextChanged(CharSequence charSequence, int start, int beforeChange, int counter) {
+                Log.e("INPUT", charSequence.toString());
+                listAdapter.filter(charSequence.toString());
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editableText) {
             }
         });
 
