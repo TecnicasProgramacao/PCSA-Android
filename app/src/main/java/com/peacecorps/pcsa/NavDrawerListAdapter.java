@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,35 +18,35 @@ import android.widget.TextView;
  */
 public class NavDrawerListAdapter extends BaseExpandableListAdapter {
 
-    private Context _context;
-    private List<String> _listDataHeader;
-    private HashMap<String, List<String>> _listDataChild;
+    private Context context;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listDataChild;
 
-    public NavDrawerListAdapter(Context _context, List<String> _listDataHeader, HashMap<String, List<String>> _listDataChild) {
-        this._context = _context;
-        this._listDataHeader = _listDataHeader;
-        this._listDataChild = _listDataChild;
+    public NavDrawerListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listDataChild) {
+        this.context = context;
+        this.listDataHeader = listDataHeader;
+        this.listDataChild = listDataChild;
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.listDataHeader.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.listDataHeader.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosition);
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -70,10 +69,10 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter {
      * @param isExpanded true, if a particular group is expanded
      */
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.navbar_list_header, null);
         }
@@ -84,11 +83,11 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.navbar_header_icon);
         iconListHeader.setVisibility(View.VISIBLE);
         lblListHeader.setText(headerTitle);
-        if(headerTitle.equals(_context.getString(R.string.settings)))
+        if(headerTitle.equals(context.getString(R.string.settings)))
             iconListHeader.setImageResource(R.drawable.ic_settings);
-        else if(headerTitle.equals(_context.getString(R.string.user_login)))
+        else if(headerTitle.equals(context.getString(R.string.user_login)))
             iconListHeader.setImageResource(R.drawable.ic_lock);
-        else if(headerTitle.equals(_context.getString(R.string.get_help)) || headerTitle.equals(_context.getString(R.string.circle_title)))
+        else if(headerTitle.equals(context.getString(R.string.get_help)) || headerTitle.equals(context.getString(R.string.circle_title)))
             iconListHeader.setVisibility(View.INVISIBLE);
         else
         {
@@ -110,7 +109,7 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter {
 
         final String childText = (String) getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.navbar_list_item, null);
         }

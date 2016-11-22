@@ -57,13 +57,13 @@ public class MessageDialogBox extends DialogFragment {
 
         listDialog = new Dialog(context);
         listDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        listDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        listDialog.getWindow() .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
 
         View view = layoutInflater.inflate(R.layout.dialog_list, null);
         listDialog.setContentView(view);
-        ListView list1 = (ListView) listDialog.findViewById(R.id.dialog_listview);
+        ListView listDialogViewById = (ListView) listDialog.findViewById(R.id.dialog_listview);
 
         final int sizeOfWindow = 25;
 
@@ -73,12 +73,12 @@ public class MessageDialogBox extends DialogFragment {
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeOfWindow);
         textView.setGravity(Gravity.CENTER);
-        list1.addHeaderView(textView);
+        listDialogViewById.addHeaderView(textView);
 
-        list1.setAdapter(new MessageAdapter(context));
+        listDialogViewById.setAdapter(new MessageAdapter(context));
 
         //Providing functionality to the listitems (Send the selected message)
-        list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listDialogViewById.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
