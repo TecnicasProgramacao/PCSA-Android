@@ -283,9 +283,9 @@ public class CircularImageView extends ImageView {
     private void updateShaderMatrix() {
         final float HALF = 0.5F;
 
-        float scale;
-        float dx = 0;
-        float dy = 0;
+        float scale = 0.0F;
+        float dx = 0.0F;
+        float dy = 0.0F;
 
         mShaderMatrix.set(null);
 

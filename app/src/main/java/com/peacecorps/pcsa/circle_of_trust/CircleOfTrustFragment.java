@@ -219,7 +219,7 @@ public class CircleOfTrustFragment extends Fragment {
             }
         }
         if (counter != 0) {
-            String contentToPost;
+            String contentToPost = "";
 
             //For 1 comrade
             if (counter == 1) {
