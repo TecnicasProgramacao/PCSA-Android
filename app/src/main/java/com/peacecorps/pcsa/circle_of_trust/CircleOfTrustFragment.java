@@ -79,7 +79,7 @@ public class CircleOfTrustFragment extends Fragment {
     private ArrayList<PendingIntent> sentIntents = new ArrayList<>();
     private String numbers[ ];
     private static BroadcastReceiver sentReceiver;
-    private static Map<String, String> allNamesOfCircleOfTrust = new HashMap();
+    private static Map<Integer, String> allNamesOfCircleOfTrust = new HashMap();
 
     private TextView firstComradeName, secondComradeName, thirdComradeName,
             fourthComradeName, fifthComradeName, sixthComradeName;
@@ -476,14 +476,11 @@ public class CircleOfTrustFragment extends Fragment {
         if (requestCode == REQUEST_CODE_TRUSTEES) {
             refreshPhotos();
 
+            for (Map.Entry<Integer, String> pair : allNamesOfCircleOfTrust.entrySet()) {
 
-            Iterator it = allNamesOfCircleOfTrust.entrySet().iterator();
+                allTextViews[pair.getKey() - 1].setText(pair.getValue().toString());
 
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                allTextViews[(Integer) pair.getKey() - 1].setText(pair.getValue().toString());
-
-                editor.putString(NAME_KEY + ((Integer) pair.getKey() - 1),
+                editor.putString(NAME_KEY + (pair.getKey() - 1),
                         pair.getValue().toString());
             }
 
