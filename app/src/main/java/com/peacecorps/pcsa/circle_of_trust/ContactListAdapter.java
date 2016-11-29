@@ -1,3 +1,10 @@
+/*
+ * File: ContactListAdapter.java
+ * Package: circle_of_trust
+ *
+ * Purpose: List Adaoter for showing multiple contact selection dialog.
+ */
+
 package com.peacecorps.pcsa.circle_of_trust;
 
 import android.content.Context;
@@ -9,15 +16,9 @@ import android.widget.TextView;
 
 import com.peacecorps.pcsa.R;
 
-/*
- * List Adapter for showing multiple contact selection dialog
- *
- * @author chamika
- * @since 2016-04-13
- */
 public class ContactListAdapter extends ArrayAdapter {
 
-    private static LayoutInflater inflater;
+    private static LayoutInflater inflater = null;
 
     public ContactListAdapter(final Context context, final Object[] objects) {
         super(context, R.layout.dialog_list, objects);
@@ -26,15 +27,18 @@ public class ContactListAdapter extends ArrayAdapter {
 
     @Override
     public final View getView(final int position, final View convertView, final ViewGroup parent) {
-        View rowView;
-        rowView = inflater.inflate(R.layout.contacts_dialog_listitem, null);
+        // Initialize the TextView and the rows in the contact list
+        View rowView = inflater.inflate(R.layout.contacts_dialog_listitem, null);
         TextView textView = (TextView) rowView.findViewById(R.id.dialog_txt);
+
+        // Shows the selected contact info in the TextView
         Object item = getItem(position);
         if (item != null) {
             textView.setText(item.toString());
         } else {
             textView.setText("");
         }
+
         return rowView;
     }
 }

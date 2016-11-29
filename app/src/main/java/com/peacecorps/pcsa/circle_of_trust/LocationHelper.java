@@ -1,3 +1,10 @@
+/*
+ * File: LocationHelper.java
+ * Package: circle_of_trust
+ *
+ * Purpose: Helper Class for handling location listening and retrieving.
+ */
+
 package com.peacecorps.pcsa.circle_of_trust;
 
 import android.content.Context;
@@ -7,19 +14,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
-/*
- * Helper Class for handling location listening and retrieving
- *
- * @author chamika
- * @since 2016-02-29
- */
 public class LocationHelper {
+    // Constants
     public static final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
     private static final String TAG = LocationHelper.class.getSimpleName();
 
-    private Location lastLocation;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
+    //Private variables
+    private Location lastLocation = null;
+    private LocationManager locationManager = null;
+    private LocationListener locationListener = null;
     private Context context;
 
     public LocationHelper(Context context) {
@@ -46,12 +49,15 @@ public class LocationHelper {
                     }
 
                     public void onStatusChanged(String provider, int status, Bundle extras) {
+                        // Do nothing
                     }
 
                     public void onProviderEnabled(String provider) {
+                        // Do nothing
                     }
 
                     public void onProviderDisabled(String provider) {
+                        // Do nothing
                     }
                 };
             }
@@ -59,8 +65,10 @@ public class LocationHelper {
             try {
                 // Register the listener with the Location Manager to receive location updates
                 locationManager.requestLocationUpdates(LOCATION_PROVIDER, 0, 0, locationListener);
+
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "Unable to listen to GPS location updates", e);
+
             } catch (NullPointerException e) {
                 Log.e(TAG, "Unable to get location services", e);
             }

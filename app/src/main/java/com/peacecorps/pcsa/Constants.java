@@ -1,8 +1,12 @@
+/*
+ * File: Constants.java
+ * Package: pcsa
+ *
+ * Purpose: Holds the common variables as constants used in the project.
+ */
+
 package com.peacecorps.pcsa;
 
-/**
- * Stores all the constants used in the project.
- */
 public class Constants {
     public static final class SmsConstants {
         public static final String COME_GET_ME = "Come get me";
