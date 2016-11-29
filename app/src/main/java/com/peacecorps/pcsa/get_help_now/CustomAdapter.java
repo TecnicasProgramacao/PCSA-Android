@@ -2,7 +2,7 @@
  * File: CustomAdapter.java
  * Package: get_help_now
  *
- * Purpose: Initialise views of the customised dialog box
+ * Purpose: Initialize views of the customised dialog box
  */
 
 package com.peacecorps.pcsa.get_help_now;
@@ -29,22 +29,42 @@ public class CustomAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /**
+     * Gets the total size of the caption array
+     * @return Total size of the caption array
+     */
     @Override
     public final int getCount() {
         return caption.length;
     }
 
+    /**
+     * Grabs the item in the defined position in the list
+     * @param position Position of the item in the list
+     * @return Object - The object in the position
+     */
     @Override
     public final Object getItem(final int position) {
         return position;
     }
 
+    /**
+     *
+     * @param position Position of the item in the list
+     * @return long - The id of the object in the position
+     */
     @Override
     public final long getItemId(final int position) {
         return position;
     }
 
-
+    /**
+     *
+     * @param position Desired position fir the dialogs
+     * @param convertView
+     * @param parent Group view that holds the adapter
+     * @return View - The list with the defined dialogs
+     */
     @Override
     public final View getView(final int position,
                               final View convertView,
