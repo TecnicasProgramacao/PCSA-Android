@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -46,7 +47,10 @@ public abstract class ListDialogBox extends DialogFragment {
         int patternTextSize = 20;
         TextView textView = new TextView(context);
         textView.setText(title);
-        textView.setTextColor(context.getResources().getColor(R.color.primary_text_default_material_dark));
+
+        final int resourceColor = ContextCompat.getColor(context, R.color.primary_text_default_material_dark);
+        textView.setTextColor(resourceColor);
+
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, patternTextSize);
         textView.setGravity(Gravity.CENTER);
