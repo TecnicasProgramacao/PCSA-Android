@@ -25,14 +25,14 @@ public class LocationHelper {
     private LocationListener locationListener = null;
     private Context context;
 
-    public LocationHelper(Context context) {
+    public LocationHelper(final Context context) {
         this.context = context;
     }
 
     /**
      * Start acquiring location updates
      */
-    public void startAcquiringLocation() {
+    public final void startAcquiringLocation() {
         if (context != null) {
             if (locationManager == null) {
                 // Acquire a reference to the system Location Manager
@@ -42,7 +42,7 @@ public class LocationHelper {
             if (locationListener == null) {
                 // Define a listener that responds to location updates
                 locationListener = new LocationListener() {
-                    public void onLocationChanged(Location location) {
+                    public void onLocationChanged(final Location location) {
                         // Called when a new location is found by the location provider.
                         Log.d(TAG, "Location Updated:" + location.toString());
                         updateLocation(location);
@@ -79,7 +79,7 @@ public class LocationHelper {
      * Stop acquiring location updates.
      * This is important to call to save battery consumption of retrieving GPS
      */
-    public void stopAcquiringLocation() {
+    public final void stopAcquiringLocation() {
         if (locationManager != null && locationListener != null) {
             // Remove the listener which added by calling #startAcquiringLocation
             locationManager.removeUpdates(locationListener);
@@ -92,7 +92,7 @@ public class LocationHelper {
      * @param needLastKnown if no location update found, return last known location
      * @return
      */
-    public Location retrieveLocation(boolean needLastKnown) {
+    public final Location retrieveLocation(boolean needLastKnown) {
         if (lastLocation == null && locationManager != null && needLastKnown) {
             lastLocation = locationManager.getLastKnownLocation(LOCATION_PROVIDER);
         }
