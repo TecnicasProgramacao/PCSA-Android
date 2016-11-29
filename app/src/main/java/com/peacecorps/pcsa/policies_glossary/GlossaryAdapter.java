@@ -1,3 +1,10 @@
+/*
+ * File: GlossaryAdapter.java
+ * Package: policies_glossary
+ *
+ * Purpose: Custom adapter for Expandable List View in GlossaryFragment.java
+ */
+
 package com.peacecorps.pcsa.policies_glossary;
 
 import android.content.Context;
@@ -18,27 +25,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/*
- * Custom Adapter for Expandable List View in GlossaryFragment
- * @author rohan
- * @since 2016-07-30
- */
 public class GlossaryAdapter extends BaseExpandableListAdapter {
 
     private Context glossaryAdapterContext;
     private List<String> glossaryAdapterListDataHeader; // header titles
+
     // child data in format of header title, child title
     private HashMap<String, List<String>> glossaryAdapterListDataChild;
-    private ExpandableListView listView;
 
     public GlossaryAdapter(final Context context,
                            final List<String> listDataHeader,
                            final HashMap<String, List<String>> listChildData,
                            final ExpandableListView expandableListView) {
+
         this.glossaryAdapterContext = context;
         this.glossaryAdapterListDataHeader = listDataHeader;
         this.glossaryAdapterListDataChild = listChildData;
-        this.listView = expandableListView;
+        ExpandableListView listView = expandableListView;
     }
 
     @Override
