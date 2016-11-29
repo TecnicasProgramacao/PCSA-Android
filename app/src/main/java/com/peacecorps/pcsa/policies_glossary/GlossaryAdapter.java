@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class GlossaryAdapter extends BaseExpandableListAdapter {
 
@@ -56,8 +57,11 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public final View getChildView(final int groupPosition, final int childPosition,
-                                   final boolean isLastChild, View convertView, final ViewGroup parent) {
+    public final View getChildView(final int groupPosition,
+                                   final int childPosition,
+                                   final boolean isLastChild,
+                                   View convertView,
+                                   final ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
@@ -128,154 +132,145 @@ public class GlossaryAdapter extends BaseExpandableListAdapter {
                         glossaryAdapterListDataHeader,
                         glossaryAdapterListDataChild);
 
-        Iterator listIt = glossaryAdapterListDataHeader.iterator();
-        while (listIt.hasNext()) {
-            String next = (String) listIt.next();
-            if (next.length() < textEntered.length()
-                    || !next.toUpperCase().startsWith(textEntered.toUpperCase())) {
-                listIt.remove();
+        Iterator headers = glossaryAdapterListDataHeader.iterator();
+        while (headers.hasNext()) {
+            String next = (String) headers.next();
+
+            // Transform all to upper case not to differentiate lower and upper case
+            String textEnteredUpper = textEntered.toUpperCase();
+            String nextUpper = next.toUpperCase();
+
+            boolean startsWithEntered = nextUpper.startsWith(textEnteredUpper);
+            boolean isShorter = next.length() < textEntered.length();
+
+            // Remove items that does not match the user preferences
+            if (isShorter || !startsWithEntered) {
+                headers.remove();
             }
         }
 
-        for (Iterator<Map.Entry<String, List<String>>>
-             it = glossaryAdapterListDataChild.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<String, List<String>> entry = it.next();
+        // Iterator to run through data child map (headers, descriptions)
+        Iterator<Map.Entry<String, List<String>>> dataChildIterator =
+                glossaryAdapterListDataChild.entrySet().iterator();
+
+        while (dataChildIterator.hasNext()) {
+            Map.Entry<String, List<String>> entry = dataChildIterator.next();
             if (!glossaryAdapterListDataHeader.contains(entry.getKey())) {
-                it.remove();
+                dataChildIterator.remove();
             }
         }
         notifyDataSetChanged();
     }
 
+    /**
+     * Initialize the content lists to be displayed in the screen
+     * @param context Current context view
+     * @param listDataHeader List to be populated with the headers
+     * @param listDataChild HashMap to be initialize with headers and descriptions
+     */
     public static void prepareListData(final Context context,
-                                       final List<String> listDataHeader,
+                                       List<String> listDataHeader,
                                        final HashMap<String, List<String>> listDataChild) {
+        // Clear any residues in lists
         listDataChild.clear();
         listDataHeader.clear();
 
-        listDataHeader.add(context.getString(R.string.aggravated_sexual_assault));
-        listDataHeader.add(context.getString(R.string.assailant));
-        listDataHeader.add(context.getString(R.string.burglary));
-        listDataHeader.add(context.getString(R.string.intervention));
-        listDataHeader.add(context.getString(R.string.phenomenon));
-        listDataHeader.add(context.getString(R.string.cyber));
-        listDataHeader.add(context.getString(R.string.danger));
-        listDataHeader.add(context.getString(R.string.mitigate));
-        listDataHeader.add(context.getString(R.string.pii));
-        listDataHeader.add(context.getString(R.string.rape));
-        listDataHeader.add(context.getString(R.string.risk));
-        listDataHeader.add(context.getString(R.string.rob));
-        listDataHeader.add(context.getString(R.string.safe));
-        listDataHeader.add(context.getString(R.string.security));
-        listDataHeader.add(context.getString(R.string.sexual_assault));
-        listDataHeader.add(context.getString(R.string.exploit));
-        listDataHeader.add(context.getString(R.string.harass));
-        listDataHeader.add(context.getString(R.string.misconduct));
-        listDataHeader.add(context.getString(R.string.predator));
-        listDataHeader.add(context.getString(R.string.threat));
-        listDataHeader.add(context.getString(R.string.stalk));
-        listDataHeader.add(context.getString(R.string.theft));
-        listDataHeader.add(context.getString(R.string.vulnerability));
+        final int HEADERSID[ ] = new int[] {// Constant for header id strings
+                R.string.aggravated_sexual_assault,
+                R.string.assailant,
+                R.string.burglary,
+                R.string.intervention,
+                R.string.phenomenon,
+                R.string.cyber,
+                R.string.danger,
+                R.string.mitigate,
+                R.string.pii,
+                R.string.rape,
+                R.string.risk,
+                R.string.rob,
+                R.string.safe,
+                R.string.security,
+                R.string.sexual_assault,
+                R.string.exploit,
+                R.string.harass,
+                R.string.misconduct,
+                R.string.predator,
+                R.string.threat,
+                R.string.stalk,
+                R.string.theft,
+                R.string.vulnerability
+        };
 
-        // Adding child data
-        List<String> assault = new ArrayList<String>();
-        assault.add(context.getString(R.string.asexual_assault));
+        listDataHeader = populateListWithStrings(context, HEADERSID);
 
-        List<String> assailant = new ArrayList<String>();
-        assailant.add(context.getString(R.string.assailant_info));
+        final int DESCRIPTIONSID[ ] = new int[]{// Constant for descriptions id strings
+                R.string.asexual_assault,
+                R.string.assailant_info,
+                R.string.burglary_info,
+                R.string.intervention_info,
+                R.string.phenomenon_info,
+                R.string.cyber_info,
+                R.string.danger_info,
+                R.string.mitigation_info,
+                R.string.pii_info,
+                R.string.rape_info,
+                R.string.risk_info,
+                R.string.robbery_info,
+                R.string.safety_info,
+                R.string.security_info,
+                R.string.sexual_assault_info1,
+                R.string.exploitation_info,
+                R.string.harassment_info,
+                R.string.misconduct_info,
+                R.string.threat_info,
+                R.string.predator_info,
+                R.string.stalking_info,
+                R.string.theft_info,
+                R.string.vulnerability_info
+        };
 
-        List<String> burglary = new ArrayList<String>();
-        burglary.add(context.getString(R.string.burglary_info));
 
-        List<String> intervention = new ArrayList<String>();
-        intervention.add(context.getString(R.string.intervention_info));
+        final List<List<String>> descriptions = new ArrayList<>();
+        // Create one List for each description item
+        for (int id : DESCRIPTIONSID) {
+            final String description = context.getString(id);
 
-        List<String> phenomenon = new ArrayList<String>();
-        phenomenon.add(context.getString(R.string.phenomenon_info));
+            final List<String> descriptionItem = new ArrayList<>();
+            descriptionItem.add(description);
 
-        List<String> cyber = new ArrayList<String>();
-        cyber.add(context.getString(R.string.cyber_info));
+            descriptions.add(descriptionItem);
+        }
 
-        List<String> danger = new ArrayList<String>();
-        danger.add(context.getString(R.string.danger_info));
+        final int maxItems; // Number of ids in description and header lists
 
-        List<String> mitigate = new ArrayList<String>();
-        mitigate.add(context.getString(R.string.mitigation_info));
+        if (HEADERSID.length == DESCRIPTIONSID.length){
+            maxItems = DESCRIPTIONSID.length;
 
-        List<String> pii = new ArrayList<String>();
-        pii.add(context.getString(R.string.pii_info));
+        } else {
+            // If the header and description contents are not compatible in number choose the
+            // header number as the main as there could not be a content with out title
+            maxItems = HEADERSID.length;
+        }
 
-        List<String> rape = new ArrayList<String>();
-        rape.add(context.getString(R.string.rape_info));
+        // Iterate through items in both header and description lists
+        for (int i = 0; i < maxItems; i++) {
+            final String header = listDataHeader.get(i);
+            final List<String> description = descriptions.get(i);
 
-        List<String> risk = new ArrayList<String>();
-        risk.add(context.getString(R.string.risk_info));
+            listDataChild.put(header, description);
+        }
+    }
 
-        List<String> rob = new ArrayList<String>();
-        rob.add(context.getString(R.string.robbery_info));
+    private static List<String> populateListWithStrings(final Context context,
+                                                 final int listIDs[ ]) {
+        List<String> resultList = new ArrayList<>();
 
-        List<String> safe = new ArrayList<String>();
-        safe.add(context.getString(R.string.safety_info));
+        for (int headerID : listIDs) {
+            final String header = context.getString(headerID);
+            resultList.add(header);
+        }
 
-        List<String> security = new ArrayList<String>();
-        security.add(context.getString(R.string.security_info));
-
-        List<String> sexualAssault = new ArrayList<String>();
-
-        sexualAssault.add(context.getString(R.string.sexual_assault_info1));
-
-        List<String> exploit = new ArrayList<String>();
-        exploit.add(context.getString(R.string.exploitation_info));
-
-        List<String> harass = new ArrayList<String>();
-        harass.add(context.getString(R.string.harassment_info));
-
-        List<String> misconduct = new ArrayList<String>();
-        misconduct.add(context.getString(R.string.misconduct_info));
-
-        List<String> threat = new ArrayList<String>();
-        threat.add(context.getString(R.string.threat_info));
-
-        List<String> predator = new ArrayList<String>();
-        predator.add(context.getString(R.string.predator_info));
-
-        List<String> stalk = new ArrayList<String>();
-        stalk.add(context.getString(R.string.stalking_info));
-
-        List<String> theft = new ArrayList<String>();
-        theft.add(context.getString(R.string.theft_info));
-
-        List<String> vulnerability = new ArrayList<String>();
-        vulnerability.add(context.getString(R.string.vulnerability_info));
-
-        final int availableOptions[] = new int[]{0, 1, 2, 3, 4, 5,
-                                                 6, 7, 8, 9, 10, 11,
-                                                 12, 13, 14, 15, 16, 17,
-                                                 18, 19, 20, 21, 22};
-
-        listDataChild.put(listDataHeader.get(availableOptions[0]), assault);
-        listDataChild.put(listDataHeader.get(availableOptions[1]), assailant);
-        listDataChild.put(listDataHeader.get(availableOptions[2]), burglary);
-        listDataChild.put(listDataHeader.get(availableOptions[3]), intervention);
-        listDataChild.put(listDataHeader.get(availableOptions[4]), phenomenon);
-        listDataChild.put(listDataHeader.get(availableOptions[5]), cyber);
-        listDataChild.put(listDataHeader.get(availableOptions[6]), danger);
-        listDataChild.put(listDataHeader.get(availableOptions[7]), mitigate);
-        listDataChild.put(listDataHeader.get(availableOptions[8]), pii);
-        listDataChild.put(listDataHeader.get(availableOptions[9]), rape);
-        listDataChild.put(listDataHeader.get(availableOptions[10]), risk);
-        listDataChild.put(listDataHeader.get(availableOptions[11]), rob);
-        listDataChild.put(listDataHeader.get(availableOptions[12]), safe);
-        listDataChild.put(listDataHeader.get(availableOptions[13]), security);
-        listDataChild.put(listDataHeader.get(availableOptions[14]), sexualAssault);
-        listDataChild.put(listDataHeader.get(availableOptions[15]), exploit);
-        listDataChild.put(listDataHeader.get(availableOptions[16]), harass);
-        listDataChild.put(listDataHeader.get(availableOptions[17]), misconduct);
-        listDataChild.put(listDataHeader.get(availableOptions[18]), predator);
-        listDataChild.put(listDataHeader.get(availableOptions[19]), threat);
-        listDataChild.put(listDataHeader.get(availableOptions[20]), stalk);
-        listDataChild.put(listDataHeader.get(availableOptions[21]), theft);
-        listDataChild.put(listDataHeader.get(availableOptions[22]), vulnerability);
+        return resultList;
 
     }
 }
