@@ -8,10 +8,18 @@ import android.view.ViewGroup;
 
 import com.peacecorps.pcsa.R;
 
+/*
+ * Second Slide of circle of trust introduction
+ *
+ * @author calistus
+ * @since 2015-08-18
+ */
 public class SecondSlide extends Fragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro2, container, false);
-        return v;
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        View intro2View = inflater.inflate(R.layout.intro2, container, false);
+        return intro2View;
     }
 }

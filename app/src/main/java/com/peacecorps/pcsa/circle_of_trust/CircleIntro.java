@@ -11,13 +11,18 @@ import com.peacecorps.pcsa.circle_of_trust.slides.FourthSlide;
 import com.peacecorps.pcsa.circle_of_trust.slides.SecondSlide;
 import com.peacecorps.pcsa.circle_of_trust.slides.ThirdSlide;
 
-
+/*
+ * Activity of loading Circle of Trusts' introductory views
+ *
+ * @author calistus
+ * @since 2015-08-18
+ */
 public class CircleIntro extends AppIntro {
-    public SharedPreferences settings;
-    public boolean firstRun;
+    private SharedPreferences settings;
+    private boolean firstRun;
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    public final void init(final Bundle  savedInstanceState) {
 
         settings = getSharedPreferences("prefs", 0);
         firstRun = settings.getBoolean("firstRun", true);
@@ -29,32 +34,39 @@ public class CircleIntro extends AppIntro {
 
             setFadeAnimation();
 
-        } else{ loadMainActivity();}
+        } else {
+
+            loadMainActivity();
+
+        }
     }
 
-    private void loadMainActivity(){
+    /**
+     * Loads the regular activity if the first run is skipped or finished.
+     */
+    private void loadMainActivity() {
 
         settings = getSharedPreferences("prefs", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstRun", false);
         editor.commit();
-        Intent intent = new Intent(this, CircleOfTrust.class);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(2, intent);
         finish();
     }
 
     @Override
-    public void onSkipPressed() {
+    public final void onSkipPressed() {
         loadMainActivity();
 
     }
 
     @Override
-    public void onDonePressed() {
+    public final void onDonePressed() {
         loadMainActivity();
     }
 
-    public void getStarted(View v){
+    public final void getStarted(final View  v) {
         loadMainActivity();
     }
 }
